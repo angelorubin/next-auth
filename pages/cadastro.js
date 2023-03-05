@@ -20,9 +20,19 @@ export default function CadastroPage() {
     setFormData({...formData, [name]: event.target.value})
   }
 
-  const handleForm = (event) => {
-    event.preventDefault()
-    console.log(formData)
+  const handleForm = async (event) => {
+    try {
+      event.preventDefault()
+      const response = await fetch(`/api/user/cadastro`, {
+        method: 'POST',
+        body: JSON.stringify(formData)
+      })
+      const json = await response.json()
+      console.log(response.status)
+      console.log(json)
+    } catch (err)   {
+
+    }
   }
 
   return (
