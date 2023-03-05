@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
+import { setCookie } from 'cookies-next'
+import { useRouter } from 'next/router'
 
 import Button from '../src/components/button/button'
 import Input from '../src/components/input/input'
@@ -16,6 +18,9 @@ export default function CadastroPage() {
     password: '',
   })  
 
+  const [error, setError] = useState('')
+  const router = useRouter()
+
   const handleFormEdit = (event, name) => {
     setFormData({...formData, [name]: event.target.value})
   }
@@ -28,10 +33,12 @@ export default function CadastroPage() {
         body: JSON.stringify(formData)
       })
       const json = await response.json()
-      console.log(response.status)
-      console.log(json)
-    } catch (err)   {
+      if (response.status !== 201) throw new Error(json)
 
+      setCookie('authorization', json)
+      router.push('/login')  
+    } catch (err)   {
+      setError(err.message) 
     }
   }
 
@@ -43,6 +50,7 @@ export default function CadastroPage() {
           <Input type="email" placeholder="Seu e-mail" required value={formData.email}  onChange={(e) => {handleFormEdit(e, 'email')}} />
           <Input type="password" placeholder="Sua senha" required value={formData.password} onChange={(e) => {handleFormEdit(e, 'password')}} />
           <Button>Cadastrar</Button>
+          {error && <p className={styles.error}>{error}</p>}
           <Link href="/login">Já possui conta?</Link>
         </form>
       </LoginCard>
