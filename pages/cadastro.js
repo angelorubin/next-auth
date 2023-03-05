@@ -17,7 +17,7 @@ export default function CadastroPage() {
             <Input type="email" placeholder="Seu e-mail" required />
             <Input type="password" placeholder="Sua senha" required />
             <Button>Cadastrar</Button>
-            <Link href="/cadastro">Já possui conta?</Link>
+            <Link href="/login">Já possui conta?</Link>
           </form>
         </LoginCard>
       </div>
