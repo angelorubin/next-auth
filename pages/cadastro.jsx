@@ -1,11 +1,9 @@
-import { useState } from 'react'
 import Link from 'next/link'
-import { setCookie } from 'cookies-next'
+import { useState } from 'react'
 import { useRouter } from 'next/router'
 
 import Button from '../src/components/button/button'
 import Input from '../src/components/input/input'
-
 
 import styles from '../styles/Login.module.css'
 
@@ -15,14 +13,13 @@ export default function CadastroPage() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    password: '',
-  })  
+    password: ''
+  })
 
   const [error, setError] = useState('')
   const router = useRouter()
-
   const handleFormEdit = (event, name) => {
-    setFormData({...formData, [name]: event.target.value})
+    setFormData({ ...formData, [name]: event.target.value })
   }
 
   const handleForm = async (event) => {
@@ -34,11 +31,9 @@ export default function CadastroPage() {
       })
       const json = await response.json()
       if (response.status !== 201) throw new Error(json)
-
-      setCookie('authorization', json)
-      router.push('/login')  
-    } catch (err)   {
-      setError(err.message) 
+      router.push('/login')
+    } catch (err) {
+      setError(err.message)
     }
   }
 
@@ -46,14 +41,38 @@ export default function CadastroPage() {
     <div className={styles.background}>
       <LoginCard title="Crie sua conta">
         <form onSubmit={handleForm} className={styles.form}>
-          <Input type="text" placeholder="Seu nome" required value={formData.name} onChange={(e) => {handleFormEdit(e, 'name')}} />
-          <Input type="email" placeholder="Seu e-mail" required value={formData.email}  onChange={(e) => {handleFormEdit(e, 'email')}} />
-          <Input type="password" placeholder="Sua senha" required value={formData.password} onChange={(e) => {handleFormEdit(e, 'password')}} />
+          <Input
+            type="text"
+            placeholder="Seu nome"
+            required
+            value={formData.name}
+            onChange={(e) => {
+              handleFormEdit(e, 'name')
+            }}
+          />
+          <Input
+            type="email"
+            placeholder="Seu e-mail"
+            required
+            value={formData.email}
+            onChange={(e) => {
+              handleFormEdit(e, 'email')
+            }}
+          />
+          <Input
+            type="password"
+            placeholder="Sua senha"
+            required
+            value={formData.password}
+            onChange={(e) => {
+              handleFormEdit(e, 'password')
+            }}
+          />
           <Button>Cadastrar</Button>
           {error && <p className={styles.error}>{error}</p>}
           <Link href="/login">Já possui conta?</Link>
         </form>
       </LoginCard>
     </div>
-  )    
-}  
+  )
+}
