@@ -12,13 +12,13 @@ import LoginCard from '../src/components/loginCard/loginCard'
 export default function LoginPage() {
   const [formData, setFormData] = useState({
     email: '',
-    password: ''
+    password: '',
   })
 
   const [error, setError] = useState('')
   const router = useRouter()
   const handleFormEdit = (event, name) => {
-    setFormData({ ...formData, [name]: event.target.value })
+    setFormData({...formData, [name]: event.target.value})
   }
 
   const handleForm = async (event) => {
@@ -40,24 +40,8 @@ export default function LoginPage() {
     <div className={styles.background}>
       <LoginCard title="Entre em sua conta">
         <form onSubmit={handleForm} className={styles.form}>
-          <Input
-            type="email"
-            placeholder="Seu e-mail"
-            required
-            value={formData.email}
-            onChange={(e) => {
-              handleFormEdit(e, 'email')
-            }}
-          />
-          <Input
-            type="password"
-            placeholder="Sua senha"
-            required
-            value={formData.password}
-            onChange={(e) => {
-              handleFormEdit(e, 'password')
-            }}
-          />
+          <Input type="email" placeholder="Seu e-mail" required value={formData.email}  onChange={(e) => {handleFormEdit(e, 'email')}} />
+          <Input type="password" placeholder="Sua senha" required value={formData.password} onChange={(e) => {handleFormEdit(e, 'password')}} />
           <Button>Entrar</Button>
           {error && <p className={styles.error}>{error}</p>}
           <Link href="/cadastro">Ainda não possui conta?</Link>
