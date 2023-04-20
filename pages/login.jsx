@@ -1,24 +1,25 @@
 import Link from 'next/link'
+import styles from '../styles/Login.module.css'
 import { useState } from 'react'
+import { setCookie } from 'cookies-next'
 import { useRouter } from 'next/router'
 
-import Button from '../src/components/button/button'
-import Input from '../src/components/input/input'
+import LoginCard from '@/src/components/loginCard/LoginCard'
+import Input from '@/src/components/input/Input'
+import Button from '@/src/components/input/button/Button'
 
-import styles from '../styles/Login.module.css'
-
-import LoginCard from '../src/components/loginCard/loginCard'
-
-export default function LoginPage() {
+export default function CadastroPage() {
   const [formData, setFormData] = useState({
+    name: '',
     email: '',
-    password: '',
+    password: ''
   })
 
   const [error, setError] = useState('')
   const router = useRouter()
+
   const handleFormEdit = (event, name) => {
-    setFormData({...formData, [name]: event.target.value})
+    setFormData({ ...formData, [name]: event.target.value })
   }
 
   const handleForm = async (event) => {
@@ -30,6 +31,7 @@ export default function LoginPage() {
       })
       const json = await response.json()
       if (response.status !== 200) throw new Error(json)
+      setCookie('authorization', json)
       router.push('/')
     } catch (err) {
       setError(err.message)
@@ -40,8 +42,24 @@ export default function LoginPage() {
     <div className={styles.background}>
       <LoginCard title="Entre em sua conta">
         <form onSubmit={handleForm} className={styles.form}>
-          <Input type="email" placeholder="Seu e-mail" required value={formData.email}  onChange={(e) => {handleFormEdit(e, 'email')}} />
-          <Input type="password" placeholder="Sua senha" required value={formData.password} onChange={(e) => {handleFormEdit(e, 'password')}} />
+          <Input
+            type="email"
+            placeholder="Seu e-mail"
+            required
+            value={formData.email}
+            onChange={(e) => {
+              handleFormEdit(e, 'email')
+            }}
+          />
+          <Input
+            type="password"
+            placeholder="Sua senha"
+            required
+            value={formData.password}
+            onChange={(e) => {
+              handleFormEdit(e, 'password')
+            }}
+          />
           <Button>Entrar</Button>
           {error && <p className={styles.error}>{error}</p>}
           <Link href="/cadastro">Ainda não possui conta?</Link>

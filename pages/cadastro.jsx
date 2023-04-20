@@ -1,13 +1,12 @@
 import Link from 'next/link'
+import styles from '../styles/Login.module.css'
 import { useState } from 'react'
+import { setCookie } from 'cookies-next'
 import { useRouter } from 'next/router'
 
-import Button from '../src/components/button/button'
-import Input from '../src/components/input/input'
-
-import styles from '../styles/Login.module.css'
-
-import LoginCard from '../src/components/loginCard/loginCard'
+import LoginCard from '@/src/components/loginCard/LoginCard'
+import Input from '@/src/components/input/Input'
+import Button from '@/src/components/input/button/Button'
 
 export default function CadastroPage() {
   const [formData, setFormData] = useState({
@@ -18,6 +17,7 @@ export default function CadastroPage() {
 
   const [error, setError] = useState('')
   const router = useRouter()
+
   const handleFormEdit = (event, name) => {
     setFormData({ ...formData, [name]: event.target.value })
   }
@@ -31,6 +31,7 @@ export default function CadastroPage() {
       })
       const json = await response.json()
       if (response.status !== 201) throw new Error(json)
+      setCookie('authorization', json)
       router.push('/login')
     } catch (err) {
       setError(err.message)

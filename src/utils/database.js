@@ -7,7 +7,6 @@ const databaseConnection = async () => {
   if (!global.mongoose) {
     mongoose.set('strictQuery', false)
     global.mongoose = await mongoose.connect(URI)
-    console.log('aqui')
   }
 }
 
