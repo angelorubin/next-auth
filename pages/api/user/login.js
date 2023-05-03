@@ -1,4 +1,4 @@
-import { loginUser } from "@/services/user"
+import { loginUser } from '../../../services/user'
 
 export default function handler(req, res) {
   try {

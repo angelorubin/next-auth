@@ -1,6 +1,7 @@
-import jwt from 'jsonwebtoken'
 import databaseConnection from '../src/utils/database'
 import User from '../src/models/user'
+
+import jwt from 'jsonwebtoken'
 
 const SECRET = process.env.JWT_SECRET
 
@@ -24,10 +25,11 @@ export async function cadastroUser(body) {
   await databaseConnection()
   const user = await User.find({ email: body.email })
   if (user.length !== 0) throw new Error('Usuário já cadastrado')
-
   const newUser = new User(body)
-  User.create(newUser)
-  return body
+  User.create(newUser, body)
+
+  const token = createToken(body)
+  return body, token
 }
 
 export async function loginUser(body) {
@@ -37,5 +39,5 @@ export async function loginUser(body) {
   if (user[0].password !== body.password) throw new Error('Senha incorreta')
 
   const token = createToken(user)
-  return token
+  return token, user
 }
