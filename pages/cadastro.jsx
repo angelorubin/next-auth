@@ -5,9 +5,9 @@ import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { setCookie } from 'cookies-next'
 
-import LoginCard from '../src/components/loginCard/LoginCard'
-import Input from '../src/components/input/input'
-import Button from '../src/components/button/button'
+import LoginCard from '../src/components/login-card'
+import Input from '../src/components/input'
+import Button from '../src/components/button'
 
 export default function CadastroPage() {
   const [formData, setFormData] = useState({

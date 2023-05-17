@@ -1,5 +1,5 @@
 import { getCookie } from 'cookies-next'
-import { verifica } from '../services/user'
+import { verifica } from '../services/auth'
 
 export default function Home() {
   return <div>Perfil do usuário</div>
