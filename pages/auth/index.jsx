@@ -1,13 +1,12 @@
 import Link from 'next/link'
 import styles from '../../styles/Auth.module.css'
 import axios from 'axios'
-
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-
 import LoginCard from '../../src/components/login-card'
 import Input from '../../src/components/input'
 import Button from '../../src/components/button'
+import { setCookie } from 'nookies'
 
 export default function Auth() {
   const router = useRouter()
@@ -24,12 +23,17 @@ export default function Auth() {
   const handleForm = async (event) => {
     event.preventDefault()
     const res = await axios.post('/api/auth', { ...formData })
-    console.log(res.data)
 
     try {
       if (res.data.token) {
         // Requisição bem-sucedida
         console.log('Requisição POST realizada com sucesso')
+
+        setCookie(null, 'token', res.data.token, {
+          maxAge: 3600, // Tempo de vida do cookie em segundos
+          path: '/' // Caminho do cookie (opcional)
+        })
+
         router.push('/dashboard')
       } else {
         // Tratar erros de resposta

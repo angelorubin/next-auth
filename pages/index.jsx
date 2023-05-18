@@ -1,27 +1,12 @@
-import { getCookie } from 'cookies-next'
-import { verifica } from '../services/auth'
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
-export default function Home() {
-  return <div>Perfil do usuário</div>
-}
+export default function IndexPage() {
+  const router = useRouter()
 
-export const getServerSideProps = async ({ req, res }) => {
-  try {
-    const token = getCookie('authorization', { req, res })
-    if (!token) throw new Error('Token Inválido')
+  useEffect(() => {
+    router.push('/auth') // Redirecionar para auth
+  }, [])
 
-    verifica(token)
-
-    return {
-      props: {}
-    }
-  } catch (err) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: '/login'
-      },
-      props: {}
-    }
-  }
+  return null // Ou você pode retornar um componente de carregamento ou uma mensagem, se desejar
 }

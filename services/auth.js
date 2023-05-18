@@ -13,15 +13,15 @@ function readToken(token) {
   try {
     return jwt.verify(token, SECRET)
   } catch (err) {
-    throw new Error('Token inválido')
+    return null
   }
 }
 
-export function verifica(token) {
+export async function verifica(token) {
   return readToken(token)
 }
 
-export async function cadastroUser(body) {
+export async function userCreate(body) {
   await databaseConnection()
   const user = await User.find({ email: body.email })
   if (user.length !== 0) throw new Error('Usuário já cadastrado')

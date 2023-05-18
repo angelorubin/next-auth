@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import styles from '../styles/Login.module.css'
+import styles from '../styles/Auth.module.css'
 
 import { useState } from 'react'
 import { useRouter } from 'next/router'
@@ -72,7 +72,7 @@ export default function CadastroPage() {
           />
           <Button>Cadastrar</Button>
           {error && <p className={styles.error}>{error}</p>}
-          <Link href="/login">Já possui conta?</Link>
+          <Link href="/auth">Já possui conta?</Link>
         </form>
       </LoginCard>
     </div>
