@@ -46,12 +46,12 @@ export default function Auth() {
   return (
     <div className="flex">
       <div className="flex flex-col h-screen w-full justify-center items-center gap-2">
-        <h3 className="font-sans text-2xl font-bold">Entre com sua conta</h3>
+        <h3 className="font-roboto text-2xl font-bold tracking-wide">Next Auth</h3>
         <form onSubmit={handleForm} className="flex flex-col gap-2">
           <input
             className="p-2 bg-gray-100"
             type="email"
-            placeholder="Seu e-mail"
+            placeholder="e-mail"
             required
             value={formData.email}
             onChange={(e) => {
@@ -61,14 +61,14 @@ export default function Auth() {
           <input
             className="p-2 bg-gray-100"
             type="password"
-            placeholder="Sua senha"
+            placeholder="senha"
             required
             value={formData.password}
             onChange={(e) => {
               handleFormEdit(e, 'password')
             }}
           />
-          <button className="bg-slate-50">Entrar</button>
+          <button className="p-2 bg-gray-500 text-white">Entrar</button>
           {error.status && <p className="text-red-400">{error.message}</p>}
           <Link href="/user">Ainda não possui conta?</Link>
         </form>
