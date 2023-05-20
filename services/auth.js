@@ -1,5 +1,5 @@
-import databaseConnection from '../src/utils/database'
-import User from '../src/models/user'
+import databaseConnection from '../utils/database'
+import User from '../models/user'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 
