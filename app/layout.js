@@ -18,7 +18,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${roboto.variable}`}>
-      <body>{children}</body>
+      <body>
+        <div className="flex h-screen w-full">{children}</div>
+      </body>
     </html>
   )
 }
