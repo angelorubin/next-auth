@@ -3,8 +3,8 @@ import Link from 'next/link'
 import axios from 'axios'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Input from '../../components/input'
-import Button from '../../components/button'
+import Input from '../components/input'
+import Button from '../components/button'
 import { setCookie } from 'nookies'
 
 export default function Auth() {
