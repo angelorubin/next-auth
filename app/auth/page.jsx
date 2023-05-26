@@ -3,6 +3,8 @@ import Link from 'next/link'
 import axios from 'axios'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Input from '../components/input'
+import Button from '../components/button'
 import { setCookie } from 'nookies'
 
 export default function Auth() {
@@ -23,17 +25,12 @@ export default function Auth() {
 
     try {
       if (res.data.token) {
-        // Requisição bem-sucedida
-        console.log('Requisição POST realizada com sucesso')
-
         setCookie(null, 'token', res.data.token, {
-          maxAge: 3600, // Tempo de vida do cookie em segundos
-          path: '/' // Caminho do cookie (opcional)
+          maxAge: 3600
         })
 
         router.push('/dashboard')
       } else {
-        // Tratar erros de resposta
         setError({ status: true, message: res.data.message })
       }
     } catch (err) {
@@ -42,8 +39,8 @@ export default function Auth() {
   }
 
   return (
-    <div className="flex">
-      <div className="flex flex-col h-screen w-full justify-center items-center gap-2">
+    <div className="flex justify-center items-center w-full">
+      <div className="flex flex-col">
         <h3 className="font-roboto text-2xl font-bold tracking-wide">Next Auth</h3>
         <form onSubmit={handleForm} className="flex flex-col gap-3">
           <input

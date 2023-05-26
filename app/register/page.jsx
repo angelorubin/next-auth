@@ -1,11 +1,11 @@
 'use client'
 import Link from 'next/link'
+
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { setCookie } from 'cookies-next'
+
 import axios from 'axios'
-import { useFormik } from 'formik'
-import * as Yup from 'yup'
 
 export default function User() {
   const [formData, setFormData] = useState({
@@ -17,86 +17,64 @@ export default function User() {
   const [error, setError] = useState('')
   const router = useRouter()
 
-  const registerForm = useFormik({
-    initialValues: {
-      name: '',
-      email: '',
-      password: ''
-    },
-    validationSchema: Yup.object({
-      name: Yup.string()
-        .min(3, 'O nome deve possuir 3 caracteres ou mais')
-        .required('Campo obrigatório'),
-      email: Yup.string().email('Deve ser um e-mail válido.').required('Campo obrigatório'),
-      password: Yup.string().required('Campo obrigatório')
-    }),
-    onSubmit: async (values) => {
-      const { name, email, password } = values
+  const handleFormEdit = (event, name) => {
+    setFormData({ ...formData, [name]: event.target.value })
+  }
 
-      try {
-        const res = await axios.post(`/api/register`, { name, email, password })
+  const handleForm = async (event) => {
+    event.preventDefault()
 
-        if (res.status === 201) {
-          setCookie('token', res.data.token)
-          router.push('/dashboard')
-        }
-      } catch (err) {
-        setError('Ocorreu um erro, o usuário não foi registrado.')
+    try {
+      const res = await axios.post('/api/register', { ...formData })
+
+      if (response.status !== 201) {
+        throw new Error(res.data.message)
+        // setCookie('authorization', json)
+        // router.push('/login')
       }
+      console.log(res.data)
+    } catch (err) {
+      setError(err.message)
     }
-  })
+  }
 
   return (
-    <div className="flex flex-col w-full h-screen justify-center items-center">
-      <div className="flex flex-col gap-2">
-        <h1 className="font-roboto text-2xl font-bold tracking-wide">Crie sua conta</h1>
-        <form onSubmit={registerForm.handleSubmit} className="flex flex-col gap-3">
+    <div className="flex justify-center items-center w-full">
+      <div className="flex flex-col">
+        <h3 className="font-roboto text-2xl font-bold tracking-wide">Crie sua conta</h3>
+        <form onSubmit={handleForm} className="flex flex-col gap-2">
           <input
-            id="name"
-            name="name"
-            className="bg-gray-100 p-2"
+            className="p-2 bg-gray-100"
             type="text"
             placeholder="nome"
             required
-            value={registerForm.values.name}
-            onBlur={registerForm.handleBlur}
-            onChange={registerForm.handleChange}
+            value={formData.name}
+            onChange={(e) => {
+              handleFormEdit(e, 'name')
+            }}
           />
-
-          {registerForm.touched.name && registerForm.errors.name ? (
-            <span className="text-red-500 text-xs">{registerForm.errors.name}</span>
-          ) : null}
           <input
-            id="email"
-            name="email"
-            className="bg-gray-100 p-2"
-            type="text"
-            placeholder="email"
+            className="p-2 bg-gray-100"
+            type="email"
+            placeholder="e-mail"
             required
-            value={registerForm.values.email}
-            onBlur={registerForm.handleBlur}
-            onChange={registerForm.handleChange}
+            value={formData.email}
+            onChange={(e) => {
+              handleFormEdit(e, 'email')
+            }}
           />
-          {registerForm.touched.email && registerForm.errors.email ? (
-            <span className="text-red-500 text-xs">{registerForm.errors.email}</span>
-          ) : null}
           <input
-            id="password"
-            name="password"
-            className="bg-gray-100 p-2"
+            className="p-2 bg-gray-100"
             type="password"
             placeholder="senha"
             required
-            value={registerForm.password}
-            onBlur={registerForm.handleBlur}
-            onChange={registerForm.handleChange}
+            value={formData.password}
+            onChange={(e) => {
+              handleFormEdit(e, 'password')
+            }}
           />
-          {registerForm.touched.password && registerForm.errors.password ? (
-            <span className="text-red-500 text-xs">{registerForm.errors.password}</span>
-          ) : null}
-          <button className="bg-gray-500 p-2 text-white" type="submit">
-            Cadastrar
-          </button>
+          <button className="bg-gray-500 text-white p-2">Cadastrar</button>
+          {error && <p className="">{error}</p>}
           <a href="/auth">Já possui conta?</a>
         </form>
       </div>
