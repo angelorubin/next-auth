@@ -1,17 +1,14 @@
-import { createUser } from './service'
+import { userRegistration } from './service'
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     try {
-      // Lógica do serviço
-      const data = await createUser(req.body)
+      const data = await userRegistration(req.body)
 
-      // Envie uma resposta de sucesso com os dados
       res.status(201).json({
         data
       })
     } catch (error) {
-      // Trate o erro e envie uma resposta de erro adequada
       res.status(500).json({
         message: 'Ocorreu um erro ao processar a requisição.'
       })

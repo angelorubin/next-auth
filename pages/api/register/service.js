@@ -1,5 +1,5 @@
-import database from '../../../utils/database'
-import User from '../../../models/user'
+import database from '../../../app/utils/database'
+import User from '../../../app/models/user'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 
@@ -7,7 +7,7 @@ function createToken(user) {
   return jwt.sign({ email: user.email, name: user.name }, process.env.JWT_SECRET)
 }
 
-export async function createUser(body) {
+export async function userRegistration(body) {
   const { name, email, password } = body
   await database()
   // const user = await User.find({ email: body.email })
