@@ -3,8 +3,6 @@ import Link from 'next/link'
 import axios from 'axios'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Input from '../../components/input'
-import Button from '../../components/button'
 import { setCookie } from 'nookies'
 
 export default function Auth() {
@@ -47,7 +45,7 @@ export default function Auth() {
     <div className="flex">
       <div className="flex flex-col h-screen w-full justify-center items-center gap-2">
         <h3 className="font-roboto text-2xl font-bold tracking-wide">Next Auth</h3>
-        <form onSubmit={handleForm} className="flex flex-col gap-2">
+        <form onSubmit={handleForm} className="flex flex-col gap-3">
           <input
             className="p-2 bg-gray-100"
             type="email"
@@ -70,7 +68,7 @@ export default function Auth() {
           />
           <button className="p-2 bg-gray-500 text-white">Entrar</button>
           {error.status && <p className="text-red-400">{error.message}</p>}
-          <Link href="/user">Ainda não possui conta?</Link>
+          <Link href="/register">Ainda não possui conta?</Link>
         </form>
       </div>
     </div>

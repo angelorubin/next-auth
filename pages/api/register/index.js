@@ -1,12 +1,21 @@
-import { getUserByEmail } from './service'
+import { createUser } from './service'
 
-export async function userByEmail(req, res) {
-  try {
-    console.log(req.body)
-    const user = await getUserByEmail(req.body)
-    res.status(200).json({ user })
-  } catch (err) {
-    res.status(500).json({ err: err.message })
+export default async function handler(req, res) {
+  if (req.method === 'POST') {
+    try {
+      // Lógica do serviço
+      const data = await createUser(req.body)
+
+      // Envie uma resposta de sucesso com os dados
+      res.status(201).json({
+        data
+      })
+    } catch (error) {
+      // Trate o erro e envie uma resposta de erro adequada
+      res.status(500).json({
+        message: 'Ocorreu um erro ao processar a requisição.'
+      })
+    }
   }
 }
 

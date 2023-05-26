@@ -1,12 +1,20 @@
 import mongoose from 'mongoose'
 
-const URI = 'mongodb+srv://jonsmota:xy84KNyouyua3pT3@t25.o9u6ti8.mongodb.net/?retryWrites=true&w=majority'
+// const URI = process.env.MONGO_URI
 
-const databaseConnection = async () => {
-  if (!global.mongoose) {
-    mongoose.set('strictQuery', false)
-    global.mongoose = await mongoose.connect(URI)
-  }
+// Replace 'your-atlas-connection-string' with the connection string for your MongoDB Atlas cluster
+const atlasConnectionString = process.env.MONGO_URI
+
+export default async function database() {
+  mongoose
+    .connect(atlasConnectionString, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    })
+    .then(() => {
+      console.log('Connected to MongoDB Atlas')
+    })
+    .catch((error) => {
+      console.error('Error connecting to MongoDB Atlas:', error)
+    })
 }
-
-export default databaseConnection
