@@ -6,7 +6,7 @@ export default async function handler(req, res) {
       const data = await userRegistration(req.body)
 
       res.status(201).json({
-        data
+        ...data
       })
     } catch (error) {
       res.status(500).json({

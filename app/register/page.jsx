@@ -1,12 +1,14 @@
 'use client'
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import axios from 'axios'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import Snackbar from '../../app/components/snackbar'
 
 export default function User() {
   const [error, setError] = useState('')
+  const [snackbar, setSnackbar] = useState(false)
   const router = useRouter()
 
   const formRegistration = useFormik({
@@ -17,16 +19,22 @@ export default function User() {
     },
     validationSchema: Yup.object({
       name: Yup.string().required('campo obrigatório'),
-      email: Yup.string().email().required('campo obrigatório'),
+      email: Yup.string()
+        .email('O campo email deve ser um email válido.')
+        .required('campo obrigatório'),
       password: Yup.string().required('campo obrigatório')
     }),
     onSubmit: async (values) => {
+      const { name, email, password } = values
       try {
-        const res = await axios.post('/api/register', { ...values })
+        const res = await axios.post('/api/register', { name, email, password })
 
-        if (response.status === 201) {
-          router.push('/dashboard')
+        if (res.status === 201) {
+          setError(res.data.message)
+          setSnackbar(true)
+          // router.push('/dashboard')
         }
+        setError(true)
       } catch (err) {
         setError(err.message)
       }
@@ -35,6 +43,7 @@ export default function User() {
 
   return (
     <div className="flex justify-center items-center w-full">
+      <Snackbar message={error} visibility={true} bgColor={'bg-green-300'} padding={'p-2'} />
       <div className="flex flex-col">
         <h3 className="font-roboto text-2xl font-bold tracking-wide">Crie sua conta</h3>
         <form onSubmit={formRegistration.handleSubmit} className="flex flex-col gap-2">
