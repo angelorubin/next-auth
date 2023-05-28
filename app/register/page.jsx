@@ -90,7 +90,7 @@ export default function User() {
             <span className="text-red-500 text-xs">{formRegistration.errors.password}</span>
           ) : null}
           <button className="bg-gray-500 text-white p-2" type="submit">
-            Cadastrar
+            cadastrar
           </button>
           <a href="/auth">Já possui conta?</a>
         </form>
