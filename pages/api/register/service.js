@@ -1,7 +1,9 @@
-import database from '../../../app/utils/database'
-import User from '../../../app/models/user'
+import database from '../../../utils/database'
+import User from '../user/schema'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+
+database()
 
 function createToken(user) {
   return jwt.sign({ email: user.email, name: user.name }, process.env.JWT_SECRET)
@@ -9,7 +11,6 @@ function createToken(user) {
 
 export async function userRegistration(body) {
   const { name, email, password } = body
-  await database()
   // const user = await User.find({ email: body.email })
 
   const saltRounds = 10
