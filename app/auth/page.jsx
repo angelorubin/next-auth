@@ -22,13 +22,14 @@ export default function Auth() {
   const handleForm = async (event) => {
     event.preventDefault()
     const res = await axios.post('/api/auth', { ...formData })
+    const { token } = res.data
 
     try {
-      if (res.data.token) {
-        setCookie(null, 'token', res.data.token, {
-          maxAge: 3600
+      if (token) {
+        setCookie(null, 'token', token, {
+          maxAge: 30 * 24 * 60 * 60, // Expiration time in seconds (e.g., 30 days)
+          path: '/' // The path where the cookie is accessible (e.g., '/' for the entire domain)
         })
-
         router.push('/dashboard')
       } else {
         setError({ status: true, message: res.data.message })
