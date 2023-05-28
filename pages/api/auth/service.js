@@ -1,35 +1,38 @@
-import database from '../../../utils/database'
-import User from '../../../models/user'
+import User from '../user/schema'
 import jwt from 'jsonwebtoken'
+import bcrypt from 'bcryptjs'
+import connectDB from '../../../utils/database'
+
+connectDB()
 
 export async function auth(email, password) {
-  await database()
   try {
-    const user = await User.findOne({ email, password })
+    const user = await User.findOne({ email })
 
     if (!user) {
-      return { message: 'Email ou senha inválidos.' }
+      res.status(401).json({ message: 'Credenciais inválidas' })
+      return
     }
+
+    // Verifique se a senha está correta
+    const isPasswordValid = await bcrypt.compare(password, user.password)
 
     // Gerar token JWT
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: '1h'
     })
 
-    return { token }
+    return token
   } catch (error) {
     return error.message
   }
 }
 
-export async function readToken(token) {
+export async function verifyToken(token, secretKey) {
   try {
-    return jwt.verify(token, SECRET)
-  } catch (err) {
-    return null
+    const decoded = jwt.verify(token, secretKey)
+    return decoded
+  } catch (error) {
+    throw new Error('Token inválido')
   }
-}
-
-export async function verifyToken(token) {
-  return readToken(token)
 }
