@@ -11,13 +11,10 @@ export async function auth(email, password) {
 
     if (!user) {
       res.status(401).json({ message: 'Credenciais inválidas' })
-      return
     }
 
-    // Verifique se a senha está correta
     const isPasswordValid = await bcrypt.compare(password, user.password)
 
-    // Gerar token JWT
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: '1h'
     })
@@ -28,9 +25,9 @@ export async function auth(email, password) {
   }
 }
 
-export async function verifyToken(token, secretKey) {
+export async function validateToken(token) {
   try {
-    const decoded = jwt.verify(token, secretKey)
+    const decoded = jwt.verify(token, process.env.JWT_SECRET)
     return decoded
   } catch (error) {
     throw new Error('Token inválido')

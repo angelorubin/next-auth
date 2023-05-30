@@ -1,13 +1,5 @@
-// pages/_app.js
-import { useEffect } from 'react'
-import connectDB from '../utils/database'
+import './styles/globals.css'
 
-function MyApp({ Component, pageProps }) {
-  useEffect(() => {
-    connectDB()
-  }, [])
-
+export default function MyApp({ Component, pageProps }) {
   return <Component {...pageProps} />
 }
-
-export default MyApp

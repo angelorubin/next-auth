@@ -17,8 +17,8 @@ export default function SnackBar({ message, visibility, bgColor, padding, time =
   return (
     <>
       {showElement && (
-        <div class={`absolute flex flex-col items-center w-screen h-full`}>
-          <div class={`relative inset-x-0 top-0 ${padding} ${bgColor}`}>{message}</div>
+        <div className={`absolute flex flex-col items-center w-screen h-full`}>
+          <div className={`relative inset-x-0 top-0 ${padding} ${bgColor}`}>{message}</div>
         </div>
       )}
     </>

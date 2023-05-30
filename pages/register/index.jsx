@@ -1,10 +1,8 @@
-'use client'
+import { useState } from 'react'
 import axios from 'axios'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import Snackbar from '../../app/components/snackbar'
+import { useRouter } from 'next/router'
 
 export default function User() {
   const [error, setError] = useState('')
@@ -42,8 +40,7 @@ export default function User() {
   })
 
   return (
-    <div className="flex justify-center items-center w-full">
-      <Snackbar message={error} visibility={true} bgColor={'bg-green-300'} padding={'p-2'} />
+    <div className="flex justify-center items-center w-full h-screen">
       <div className="flex flex-col">
         <h3 className="font-roboto text-2xl font-bold tracking-wide">Crie sua conta</h3>
         <form onSubmit={formRegistration.handleSubmit} className="flex flex-col gap-2">

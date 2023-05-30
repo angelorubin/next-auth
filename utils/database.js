@@ -5,11 +5,20 @@ const atlasConnectionString = process.env.ATLAS_MONGO_URI
 
 const connectDB = async () => {
   try {
-    mongoose.connect(atlasConnectionString)
-    console.log('Conexão com o MongoDB estabelecida.')
+    await mongoose
+      .connect(atlasConnectionString, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      })
+      .then(() => {
+        console.log('Conexão estabelecida com sucesso ao MongoDB Atlas!')
+      })
+      .catch((error) => {
+        console.error('Erro ao conectar ao MongoDB Atlas:', error)
+      })
   } catch (error) {
     console.error('Erro ao conectar ao MongoDB:', error.message)
-    process.exit(1)
+    // process.exit(1)
   }
 }
 
