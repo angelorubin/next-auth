@@ -15,14 +15,17 @@ export default function Auth() {
       email: '',
       password: ''
     },
+    validationSchema: Yup.object({
+      email: Yup.string().required('campo obrigatório'),
+      password: Yup.string().required('campo obrigatório')
+    }),
     onSubmit: async (values) => {
       try {
-        // Fazer a chamada HTTP usando o Axios
         const res = await axios.post('/api/auth', values)
 
         const { token } = res.data
 
-        if (token) {
+        if (res.status === 200) {
           setCookie(null, 'token', token, {
             maxAge: 30 * 24 * 60 * 60, // Expiration time in seconds (e.g., 30 days)
             path: '/' // The path where the cookie is accessible (e.g., '/' for the entire domain)
@@ -93,7 +96,7 @@ export default function Auth() {
             Entrar
           </button>
         </form>
-        <Link href={{ pathname: '/dashboard' }}>Ainda não possui conta?</Link>
+        <Link href={{ pathname: '/register' }}>Ainda não possui conta?</Link>
       </div>
     </div>
   )

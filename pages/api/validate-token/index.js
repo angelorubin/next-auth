@@ -1,11 +1,21 @@
 import jwt from 'jsonwebtoken'
+import User from '../user/schema'
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     try {
-      const decodedToken = jwt.verify(req.body.token, process.env.JWT_SECRET)
+      const token = req.headers.authorization.split(' ')[1]
+      const decodedToken = jwt.verify(token, process.env.JWT_SECRET)
 
-      res.status(200).json({ message: 'Token validado com sucesso.', decodedToken })
+      const id = decodedToken.userId
+
+      const { _id, name, email } = await User.findOne({ _id: id })
+
+      res.status(200).json({
+        message: 'Token validado com sucesso.',
+        decodedToken,
+        user: { _id, name, email }
+      })
     } catch (error) {
       // Lida com o caso em que o token é inválido ou expirou
       res.status(401).json({ message: 'Token inválido' })

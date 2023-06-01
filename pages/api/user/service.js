@@ -1,18 +1,16 @@
-import database from '../../../utils/database'
+import connectDB from '../../../utils/database'
 import User from './schema'
-import bcrypt from 'bcryptjs'
+import bcrypt from 'bcrypt'
 
-database()
+connectDB()
 
 export async function userCreate(user) {
   const { name, email, password } = user
-  // const user = await User.find({ email: body.email })
 
-  const saltRounds = 10
-
-  const hashedPassword = await bcrypt.hash(password, saltRounds)
+  const hashedPassword = await bcrypt.hash(password, 10)
 
   const userData = { name, email, password: hashedPassword }
+
   const newUser = new User(userData)
 
   const { name: userName, email: userEmail } = await User.create(newUser)
@@ -30,6 +28,10 @@ export async function userCreate(user) {
   }
 }
 
-export async function userRetrieve() {
+export async function usersRetrieve() {
   return await User.find({})
+}
+
+export async function userRetrieveById(id) {
+  return await User.findOne({ _id: id })
 }

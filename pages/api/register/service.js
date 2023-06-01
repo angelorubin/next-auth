@@ -1,6 +1,6 @@
 import database from '../../../utils/database'
 import User from '../user/schema'
-import bcrypt from 'bcryptjs'
+import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
 database()
@@ -11,13 +11,11 @@ function createToken(user) {
 
 export async function userRegistration(body) {
   const { name, email, password } = body
-  // const user = await User.find({ email: body.email })
 
-  const saltRounds = 10
-
-  const hashedPassword = await bcrypt.hash(password, saltRounds)
+  const hashedPassword = await bcrypt.hash(password, 10)
 
   const userData = { name, email, password: hashedPassword }
+
   const newUser = new User(userData)
 
   const { name: userName, email: userEmail } = await User.create(newUser)
