@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import axios from 'axios'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useRouter } from 'next/router'
@@ -25,12 +24,15 @@ export default function User() {
     onSubmit: async (values) => {
       const { name, email, password } = values
       try {
-        const res = await axios.post('/api/register', { name, email, password })
+        const res = await fetch('http://localhost:3000/api/register', {
+          method: 'POST',
+          body: JSON.stringify(values)
+        })
 
         if (res.status === 201) {
           setError(res.data.message)
-          setSnackbar(true)
-          // router.push('/dashboard')
+          // setSnackbar(true)
+          router.push('/auth')
         }
         setError(true)
       } catch (err) {

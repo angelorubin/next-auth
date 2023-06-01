@@ -1,25 +1,26 @@
-import database from '../../../utils/database'
+import connectDB from '../../../utils/database'
 import User from '../user/schema'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
-database()
+connectDB()
 
 function createToken(user) {
   return jwt.sign({ email: user.email, name: user.name }, process.env.JWT_SECRET)
 }
 
-export async function userRegistration(body) {
-  const { name, email, password } = body
-
+export async function userRegistration({ name, email, password }) {
   const hashedPassword = await bcrypt.hash(password, 10)
 
   const userData = { name, email, password: hashedPassword }
 
   const newUser = new User(userData)
 
-  const { name: userName, email: userEmail } = await User.create(newUser)
+  const createdUser = await User.create(newUser)
 
+  return createdUser
+
+  /**
   if (email) {
     return {
       message: 'Usuário registrado com sucesso.',
@@ -31,6 +32,7 @@ export async function userRegistration(body) {
       message: 'Ocorreu um erro, o usuário não foi registrado.'
     }
   }
+  */
 
   /**
   // Hash password

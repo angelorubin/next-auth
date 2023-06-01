@@ -1,19 +1,20 @@
 import { userRegistration } from './service'
 
 export default async function handler(req, res) {
-  if (req.method === 'POST') {
-    try {
-      const data = await userRegistration(req.body)
+const { body } = req
+if (req.method === 'POST') {
+  try {
+    const data = await userRegistration(JSON.parse(body))
 
-      res.status(201).json({
-        ...data
-      })
-    } catch (error) {
-      res.status(500).json({
-        message: 'Ocorreu um erro ao processar a requisição.'
-      })
-    }
+    res.status(201).json({
+      ...data
+    })
+  } catch (error) {
+    res.status(500).json({
+      message: 'Ocorreu um erro ao processar a requisição.'
+    })
   }
+}
 }
 
 /**
