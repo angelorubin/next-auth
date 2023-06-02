@@ -20,10 +20,23 @@ export default function Auth() {
       password: Yup.string().required('campo obrigatório')
     }),
     onSubmit: async (values) => {
-      try {
-        const res = await axios.post('/api/auth', values)
+      const { email, password } = values
+      const data = { email, password }
 
-        const { token } = res.data
+      try {
+        const res = await fetch('/api/auth', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+
+        const { token } = await res.json()
+
+        if (res.status === 401) {
+          setError({ status: true, message: 'Credenciais inválidas' })
+        }
 
         if (res.status === 200) {
           setCookie(null, 'token', token, {
@@ -33,7 +46,6 @@ export default function Auth() {
           router.push('/dashboard')
         }
       } catch (error) {
-        // Lógica de tratamento de erros
         console.error(error)
       }
     }
@@ -96,6 +108,7 @@ export default function Auth() {
             Entrar
           </button>
         </form>
+        {error.status && <span className="text-red-500 font-bold">{error.message}</span>}
         <Link href={{ pathname: '/register' }}>Ainda não possui conta?</Link>
       </div>
     </div>
