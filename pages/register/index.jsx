@@ -14,8 +14,6 @@ export default function User() {
   })
   const router = useRouter()
 
-  const notify = () => toast('Usuário criado com sucesso!', { autoClose: 3000 })
-
   const formRegistration = useFormik({
     initialValues: {
       name: '',
