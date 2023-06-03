@@ -2,7 +2,7 @@ import axios from 'axios'
 import { parseCookies } from 'nookies'
 
 export const http = axios.create({
-  baseURL: 'localhost:3000/api'
+  baseURL: 'http://localhost:3000/api'
 })
 
 const token = parseCookies('token')

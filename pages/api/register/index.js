@@ -2,11 +2,20 @@ import { userRegistration } from './service'
 import { schemaValidation } from './validation'
 
 export default async function handler(req, res) {
-  const { name, email, password } = req.body
+  if (req.method === 'POST') {
+    try {
+      const validatedData = schemaValidation.parse(req.body)
 
-  const validation = schemaValidation.validate({ name, email, password })
-
-  res.json({ validation })
+      if (validatedData) {
+        const { _id: id, name, email } = await userRegistration(req.body)
+        res.status(201).json({
+          createdUser: { id, name, email }
+        })
+      }
+    } catch (error) {
+      res.status(400).json({ message: 'Erro de validação', error: error.errors })
+    }
+  }
 
   /**
   if (req.method === 'POST') {

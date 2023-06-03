@@ -1,12 +1,20 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useRouter } from 'next/router'
+import { http } from '../../utils/api'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export default function User() {
   const [error, setError] = useState('')
-  const [snackbar, setSnackbar] = useState(false)
+  const [snackbar, setSnackbar] = useState({
+    status: false,
+    message: ''
+  })
   const router = useRouter()
+
+  const notify = () => toast('Usuário criado com sucesso!', { autoClose: 3000 })
 
   const formRegistration = useFormik({
     initialValues: {
@@ -21,28 +29,30 @@ export default function User() {
         .required('campo obrigatório'),
       password: Yup.string().required('campo obrigatório')
     }),
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       const { name, email, password } = values
+
       try {
-        const res = await fetch('http://localhost:3000/api/register', {
-          method: 'POST',
-          body: JSON.stringify(values)
+        const res = await http.post('/register', {
+          name,
+          email,
+          password
         })
 
         if (res.status === 201) {
-          setError(res.data.message)
-          // setSnackbar(true)
-          router.push('/auth')
+          toast.success('Usuário criado com sucesso.')
+          resetForm()
+          setTimeout(() => {
+            router.push('/auth')
+          }, 3000)
         }
-        setError(true)
-      } catch (err) {
-        setError(err.message)
-      }
+      } catch (err) {}
     }
   })
 
   return (
     <div className="flex justify-center items-center w-full h-screen">
+      <ToastContainer />
       <div className="flex flex-col">
         <h3 className="font-roboto text-2xl font-bold tracking-wide">Crie sua conta</h3>
         <form onSubmit={formRegistration.handleSubmit} className="flex flex-col gap-2">

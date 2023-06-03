@@ -1,9 +1,7 @@
-import * as Yup from 'yup'
+import { z } from 'zod'
 
-export const schemaValidation = Yup.object().shape({
-  nome: Yup.string().required('O campo nome é obrigatório'),
-  email: Yup.string()
-    .email('O campo email deve ser um email válido')
-    .required('O campo email é obrigatório'),
-  password: Yup.string()
+export const schemaValidation = z.object({
+  name: z.string(),
+  email: z.string().email('O campo email deve ser um email válido'),
+  password: z.string()
 })
