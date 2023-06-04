@@ -1,10 +1,18 @@
 import { userRegistration } from './service'
 import { schemaValidation } from './validation'
+import User from '../user/schema'
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     try {
       const validatedData = schemaValidation.parse(req.body)
+
+      const { email } = validatedData
+
+      const userEmail = await User.findOne({ email })
+      if (userEmail) {
+        return res.status(400).json({ statusCode: 400, error: 'Esse usuário já está cadastrado' })
+      }
 
       if (validatedData) {
         const { _id: id, name, email } = await userRegistration(req.body)
