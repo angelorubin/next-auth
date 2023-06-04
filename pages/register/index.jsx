@@ -7,12 +7,12 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 export default function User() {
+  const router = useRouter()
   const [error, setError] = useState('')
   const [snackbar, setSnackbar] = useState({
     status: false,
     message: ''
   })
-  const router = useRouter()
 
   const formRegistration = useFormik({
     initialValues: {
@@ -38,11 +38,11 @@ export default function User() {
         })
 
         if (res.status === 201) {
-          toast.success('Usuário criado com sucesso.')
+          toast.success('Usuário criado com sucesso.', {
+            position: 'top-center',
+            onClose: () => setTimeout(() => router.push('/auth'), 5000)
+          })
           resetForm()
-          setTimeout(() => {
-            router.push('/auth')
-          }, 3000)
         }
       } catch (err) {}
     }
@@ -51,7 +51,7 @@ export default function User() {
   return (
     <div className="flex justify-center items-center w-full h-screen">
       <ToastContainer />
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-4">
         <h3 className="font-roboto text-2xl font-bold tracking-wide">Crie sua conta</h3>
         <form onSubmit={formRegistration.handleSubmit} className="flex flex-col gap-2">
           <input

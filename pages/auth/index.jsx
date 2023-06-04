@@ -5,6 +5,8 @@ import { useFormik } from 'formik'
 import Link from 'next/link'
 import { setCookie } from 'nookies'
 import * as Yup from 'yup'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.min.css'
 
 export default function Auth() {
   const router = useRouter()
@@ -35,7 +37,7 @@ export default function Auth() {
         const { token } = await res.json()
 
         if (res.status === 401) {
-          setError({ status: true, message: 'Credenciais inválidas' })
+          toast.error('Credenciais inválidas.')
         }
 
         if (res.status === 200) {
@@ -50,6 +52,15 @@ export default function Auth() {
       }
     }
   })
+
+  const contextClass = {
+    success: 'bg-blue-600',
+    error: 'bg-red-600',
+    info: 'bg-gray-600',
+    warning: 'bg-orange-400',
+    default: 'bg-indigo-600',
+    dark: 'bg-white-600 font-gray-300'
+  }
 
   /**
   async (event) => {
@@ -75,7 +86,8 @@ export default function Auth() {
 
   return (
     <div className="flex justify-center items-center w-full h-screen">
-      <div className="flex flex-col">
+      <ToastContainer />
+      <div className="flex flex-col gap-4">
         <h3 className="font-roboto text-2xl font-bold tracking-wide">Next Auth</h3>
         <form onSubmit={authFormik.handleSubmit} className="flex flex-col gap-3">
           <input
@@ -108,7 +120,6 @@ export default function Auth() {
             Entrar
           </button>
         </form>
-        {error.status && <span className="text-red-500 font-bold">{error.message}</span>}
         <Link href={{ pathname: '/register' }}>Ainda não possui conta?</Link>
       </div>
     </div>
