@@ -37,14 +37,30 @@ export default function User() {
           password
         })
 
+        const { statusCode } = res
+
         if (res.status === 201) {
-          toast.success('Usuário criado com sucesso.', {
+          toast('Usuário cadastrado com sucesso', {
             position: 'top-center',
-            onClose: () => setTimeout(() => router.push('/auth'), 5000)
+            hideProgressBar: true,
+            type: 'success',
+            theme: 'colored',
+            closeButton: false,
+            onClose: () => setTimeout(() => router.push('/auth'), 3000)
           })
           resetForm()
         }
-      } catch (err) {}
+      } catch (err) {
+        toast('Esse usuário já está cadastrado', {
+          position: 'top-center',
+          hideProgressBar: true,
+          closeButton: false,
+          type: 'error',
+          theme: 'colored'
+        })
+
+        resetForm()
+      }
     }
   })
 
