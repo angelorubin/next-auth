@@ -1,16 +1,14 @@
 import { useState } from 'react'
-import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useFormik } from 'formik'
 import Link from 'next/link'
 import { setCookie } from 'nookies'
 import * as Yup from 'yup'
 import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.min.css'
+import { http } from '../../utils/http'
 
 export default function Auth() {
   const router = useRouter()
-  const [error, setError] = useState({ status: false, message: '' })
 
   const authFormik = useFormik({
     initialValues: {
@@ -21,24 +19,14 @@ export default function Auth() {
       email: Yup.string().required('campo obrigatório'),
       password: Yup.string().required('campo obrigatório')
     }),
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       const { email, password } = values
       const data = { email, password }
 
       try {
-        const res = await fetch('/api/auth', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        })
+        const res = await http.post('/api/auth', { email, password })
 
-        const { token } = await res.json()
-
-        if (res.status === 401) {
-          toast.error('Credenciais inválidas.')
-        }
+        const { token } = res.data
 
         if (res.status === 200) {
           setCookie(null, 'token', token, {
@@ -48,19 +36,11 @@ export default function Auth() {
           router.push('/dashboard')
         }
       } catch (error) {
-        console.error(error)
+        toast('Credenciais inválidas.', { type: 'error', theme: 'colored' })
+        resetForm()
       }
     }
   })
-
-  const contextClass = {
-    success: 'bg-blue-600',
-    error: 'bg-red-600',
-    info: 'bg-gray-600',
-    warning: 'bg-orange-400',
-    default: 'bg-indigo-600',
-    dark: 'bg-white-600 font-gray-300'
-  }
 
   /**
   async (event) => {
