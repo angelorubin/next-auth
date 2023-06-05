@@ -30,13 +30,24 @@ export default function Auth() {
 
         if (res.status === 200) {
           setCookie(null, 'token', token, {
-            maxAge: 30 * 24 * 60 * 60, // Expiration time in seconds (e.g., 30 days)
-            path: '/' // The path where the cookie is accessible (e.g., '/' for the entire domain)
+            maxAge: 30 * 24 * 60 * 60,
+            path: '/'
           })
           router.push('/dashboard')
         }
       } catch (error) {
-        toast('Credenciais inválidas.', { type: 'error', theme: 'colored' })
+        toast('Credenciais inválidas.', {
+          type: 'error',
+          theme: 'colored',
+          position: 'top-center',
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          closeButton: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined
+        })
         resetForm()
       }
     }
