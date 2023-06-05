@@ -1,67 +1,67 @@
 import { useRouter } from 'next/router'
 import { parseCookies, destroyCookie } from 'nookies'
 import { AiOutlineLogout } from 'react-icons/ai'
+import fetch from 'isomorphic-fetch'
 
 export async function getServerSideProps(context) {
-  try {
-    // Obtém os cookies da requisição
-    const cookies = parseCookies(context)
+  const cookies = parseCookies(context)
+  const token = cookies.token // Obtém o token dos cookies
 
-    // Obtém o token do cookie ou define como vazio caso não exista
-    const token = cookies.token || ''
-
-    if (!token) {
-      return {
-        redirect: {
-          destination: '/auth',
-          permanent: false // Defina como true se o redirecionamento for permanente
-        }
+  if (!token) {
+    // Redireciona para a página de login ou exibe uma mensagem de erro
+    return {
+      redirect: {
+        destination: '/auth',
+        permanent: false
       }
     }
+  }
 
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    }
-    const res = await fetch('http://localhost:3000/api/validate-token', {
-      headers,
-      method: 'POST'
+  try {
+    const response = await fetch('http://localhost:3000/api/validate-token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+      // Adicione o corpo da requisição se necessário
+      // body: JSON.stringify({}),
     })
 
-    const data = await res.json()
+    // Verifica se a requisição foi bem-sucedida
+    if (response.ok) {
+      const data = await response.json()
 
-    if (res.status === 200) {
-      return {
-        props: {
-          user: data.user
-        }
-      }
-    }
-
-    /**
-    const response = await axios.post('/validate-token', { token })
-
-    if (response.status === 200) {
+      // Retorna os dados para serem utilizados na página
       return {
         props: {
           data
         }
       }
+    } else {
+      // Lida com erros de autenticação ou outras falhas na requisição
+      console.error('Erro na requisição:', response.status)
+      // Retorna a resposta normalmente, por exemplo, para exibir uma mensagem de erro na página
+      return {
+        props: {
+          error: 'Erro na requisição.'
+        }
+      }
     }
-    */
   } catch (error) {
-    // Redirecione para uma página de erro caso ocorra um erro
+    // Lida com erros de conexão ou outros erros na requisição
+    console.error('Erro na requisição:', error)
+    // Retorna a resposta normalmente, por exemplo, para exibir uma mensagem de erro na página
     return {
-      redirect: {
-        destination: '/auth',
-        permanent: false // Defina como true se o redirecionamento for permanente
+      props: {
+        error: 'Erro na requisição.'
       }
     }
   }
 }
 
-export default function Dashboard({ user }) {
-  const { name } = user
+export default function Dashboard(props) {
+  const { data, error } = props
   const router = useRouter()
 
   const handleLogout = (e) => {
@@ -73,14 +73,14 @@ export default function Dashboard({ user }) {
     <div className="flex w-full h-screen">
       <div className="flex h-20 w-full bg-gray-300">
         <div className="flex flex-1 items-center">
-          <span className="text-2xl font-bold m-2">Next</span>{' '}
+          <span className="text-2xl font-bold m-2">Next</span>
           <span className="text-2xl">Auth</span>
         </div>
 
         <div className="flex justify-center items-center">
           <div className="flex flex-2">
             <h1 className="flex justify-end">
-              Hello, <span className="font-bold mr-0.5">{name}</span>, welcome!
+              Hello, <span className="font-bold mr-0.5">{data.user.name}</span>, welcome!
             </h1>
           </div>
           <div className="flex-1">
