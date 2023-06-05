@@ -2,7 +2,7 @@ import axios from 'axios'
 import { parseCookies } from 'nookies'
 
 export const http = axios.create({
-  baseURL: 'https://vercel.com/angelorubin/next-auth'
+  baseURL: 'https://next-auth-angelorubin.vercel.app'
 })
 
 const token = parseCookies('token')
