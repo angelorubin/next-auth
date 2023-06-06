@@ -52,7 +52,7 @@ export default function Dashboard(props) {
 
   return (
     <div className="flex w-full h-screen">
-      {JSON.stringify(data, null, 2)}
+      <pre>{JSON.stringify(data, null, 2)}</pre>
       <div className="flex h-20 w-full bg-gray-300">
         <div className="flex flex-1 items-center">
           <span className="text-2xl font-bold m-2">Next</span>
