@@ -21,14 +21,10 @@ export async function getServerSideProps(context) {
   try {
     const response = await api.post('/validate-token')
 
-    // Verifica se a requisição foi bem-sucedida
     if (response.status === 200) {
-      // const data = await response.json()
-
-      // Retorna os dados para serem utilizados na página
       return {
         props: {
-          data: response.data
+          data: response.data.user
         }
       }
     }
