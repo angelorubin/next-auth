@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useRouter } from 'next/router'
@@ -31,7 +31,7 @@ export default function User() {
       const { name, email, password } = values
 
       try {
-        const res = await http.post('/register', {
+        const res = await api.post('/register', {
           name,
           email,
           password
