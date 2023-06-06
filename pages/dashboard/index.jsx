@@ -2,7 +2,6 @@ import { useRouter } from 'next/router'
 import { parseCookies, destroyCookie } from 'nookies'
 import { AiOutlineLogout } from 'react-icons/ai'
 import fetch from 'isomorphic-fetch'
-import { api } from '../../utils/api'
 
 export async function getServerSideProps(context) {
   const cookies = parseCookies(context)
@@ -19,13 +18,22 @@ export async function getServerSideProps(context) {
   }
 
   try {
-    const response = await api.post('/validate-token')
+    const response = await fetch(`${process.env.NEXT_PUBLIC_VERCEL_URL}/api/validate-token`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
 
-    if (response.status === 200) {
-      return {
-        props: {
-          data: response.data.user
-        }
+    // Lide com a resposta da API
+    const responseData = await response.json()
+
+    return {
+      props: {
+        data: responseData
       }
     }
   } catch (error) {
@@ -47,7 +55,7 @@ export default function Dashboard(props) {
   }
 
   return (
-    <div className="flex w-full h-screen">
+    <div className="flex flex-col w-full h-screen">
       <div className="flex h-20 w-full bg-gray-300">
         <div className="flex flex-1 items-center">
           <span className="text-2xl font-bold m-2">Next</span>
@@ -65,8 +73,9 @@ export default function Dashboard(props) {
           </div>
         </div>
       </div>
-      <div className="flex">
+      <div className="flex h-30 bg-gray-200">
         <pre>{JSON.stringify(data, null, 2)}</pre>
+        <h1>TEST</h1>
       </div>
     </div>
   )
