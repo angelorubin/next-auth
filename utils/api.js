@@ -4,7 +4,7 @@ import { parseCookies } from 'nookies'
 const token = parseCookies('token')
 
 export const api = axios.create({
-  baseURL: process.env.LOCALHOST_API
+  baseURL: window.location.origin
 })
 
 api.defaults.headers.common['Authorization'] = `Bearer ${token}`
