@@ -21,15 +21,12 @@ export default function Auth() {
     }),
     onSubmit: async (values, { resetForm }) => {
       const { email, password } = values
-      const data = { email, password }
 
       try {
         const res = await http.post('/api/auth', { email, password })
 
-        const { token } = res.data
-
         if (res.status === 200) {
-          setCookie(null, 'token', token, {
+          setCookie(null, 'token', res.data.token, {
             maxAge: 30 * 24 * 60 * 60,
             path: '/'
           })
