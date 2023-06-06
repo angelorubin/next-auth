@@ -4,7 +4,7 @@ import { parseCookies } from 'nookies'
 const token = parseCookies('token')
 
 export const api = axios.create({
-  baseURL: 'https://next-auth-angelorubin.vercel.app/api'
+  baseURL: process.env.LOCALHOST_API
 })
 
 api.defaults.headers.common['Authorization'] = `Bearer ${token}`
