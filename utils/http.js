@@ -2,7 +2,7 @@ import axios from 'axios'
 import { parseCookies } from 'nookies'
 
 export const http = axios.create({
-  baseURL: process.env.LOCALHOST_FRONT
+  baseURL: window.location.origin
 })
 
 const token = parseCookies('token')
