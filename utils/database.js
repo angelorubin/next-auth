@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
 // Replace 'your-atlas-connection-string' with the connection string for your MongoDB Atlas cluster
-const atlasConnectionString = process.env.ATLAS_MONGO_URI
+const atlasConnectionString = process.env.MONGODB_URI
 
 const connectDB = async () => {
   try {

@@ -5,12 +5,10 @@ import Link from 'next/link'
 import { setCookie } from 'nookies'
 import * as Yup from 'yup'
 import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.min.css'
-import { http } from '../../utils/api'
+import { http } from '../../utils/http'
 
 export default function Auth() {
   const router = useRouter()
-  const [error, setError] = useState({ status: false, message: '' })
 
   const authFormik = useFormik({
     initialValues: {
@@ -23,16 +21,14 @@ export default function Auth() {
     }),
     onSubmit: async (values, { resetForm }) => {
       const { email, password } = values
-      const data = { email, password }
 
       try {
-        const res = await http.post('/auth', { email, password })
-        const { token } = res.data
+        const res = await http.post('/api/auth', { email, password })
 
         if (res.status === 200) {
-          setCookie(null, 'token', token, {
-            maxAge: 30 * 24 * 60 * 60, // Expiration time in seconds (e.g., 30 days)
-            path: '/' // The path where the cookie is accessible (e.g., '/' for the entire domain)
+          setCookie(null, 'token', res.data.token, {
+            maxAge: 30 * 24 * 60 * 60,
+            path: '/'
           })
           router.push('/dashboard')
         }

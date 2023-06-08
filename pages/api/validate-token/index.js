@@ -5,6 +5,7 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     try {
       const token = req.headers.authorization.split(' ')[1]
+
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET)
 
       const id = decodedToken.userId

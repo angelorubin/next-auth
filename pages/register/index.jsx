@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useRouter } from 'next/router'
-import { http } from '../../utils/api'
+import { api } from '../../utils/api'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -31,7 +31,7 @@ export default function User() {
       const { name, email, password } = values
 
       try {
-        const res = await http.post('/register', {
+        const res = await api.post('/register', {
           name,
           email,
           password
