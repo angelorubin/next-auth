@@ -3,7 +3,7 @@ import { parseCookies, destroyCookie } from 'nookies'
 import { AiOutlineLogout } from 'react-icons/ai'
 
 export async function validateToken(token) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/validate-token`, {
+  const res = await fetch(`/api/validate-token`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }
   })
