@@ -1,34 +1,34 @@
 import { useRouter } from 'next/router'
 import { parseCookies, destroyCookie } from 'nookies'
 import { AiOutlineLogout } from 'react-icons/ai'
-import { api } from '../../utils/api'
 
-export async function getServerSideProps(context) {
-  const cookies = parseCookies(context)
-  const token = cookies.token // Obtém o token dos cookies
-
-  const res = await fetch('http:localhost:3000/api/validate-token', {
+export async function validateToken(token) {
+  const res = await fetch(`http://localhost:3000/api/validate-token`, {
     method: 'POST',
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }
   })
 
-  const validatedUser = await res.json()
+  const jsonData = res.json()
+  return jsonData
+}
 
-  if (res.status !== 200) {
-    // Redireciona para a página de login ou exibe uma mensagem de erro
+export async function getServerSideProps(context) {
+  try {
+    const { req } = context
+    const cookies = parseCookies({ req })
+    const jsonData = await validateToken(cookies.token)
+
+    return {
+      props: {
+        data: jsonData
+      }
+    }
+  } catch (error) {
     return {
       redirect: {
         destination: '/auth',
-        permanent: false
+        permanent: true
       }
-    }
-  }
-
-  return {
-    props: {
-      data: validatedUser.user || null
     }
   }
 
@@ -74,6 +74,8 @@ export async function getServerSideProps(context) {
 
 export default function Dashboard({ data }) {
   const router = useRouter()
+  const { user } = data
+  const { name } = user
 
   const handleLogout = (e) => {
     destroyCookie(null, 'token', { path: '/' })
@@ -92,7 +94,7 @@ export default function Dashboard({ data }) {
           <div className="flex flex-2">
             <h1 className="flex justify-end">
               <span className="mr-2">Hello,</span>
-              <span className="font-bold"> {data.name} </span>
+              <span className="font-bold"> {name} </span>
               <span className="">, welcome!</span>
             </h1>
           </div>
