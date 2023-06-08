@@ -101,9 +101,6 @@ export default function Dashboard({ data }) {
           </div>
         </div>
       </div>
-      <div className="flex flex-col h-30 bg-gray-200 p-2">
-        <h1 className="mb-2">Dados do usuário autenticado:</h1>
-      </div>
     </div>
   )
 }
