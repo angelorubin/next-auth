@@ -6,8 +6,7 @@ import { setCookie } from 'nookies'
 import * as Yup from 'yup'
 import { ToastContainer, toast } from 'react-toastify'
 
-export default function Auth(props) {
-  const { data: LOCALHOST } = props
+export default function Auth() {
   const router = useRouter()
 
   const authFormik = useFormik({
@@ -23,7 +22,7 @@ export default function Auth(props) {
       const { email, password } = values
 
       try {
-        const res = await fetch(`http://localhost:3000/api/auth`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/auth`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
