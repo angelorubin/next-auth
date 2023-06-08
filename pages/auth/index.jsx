@@ -5,9 +5,9 @@ import Link from 'next/link'
 import { setCookie } from 'nookies'
 import * as Yup from 'yup'
 import { ToastContainer, toast } from 'react-toastify'
-import { http } from '../../utils/http'
 
-export default function Auth() {
+export default function Auth(props) {
+  const { data: LOCALHOST } = props
   const router = useRouter()
 
   const authFormik = useFormik({
@@ -23,10 +23,18 @@ export default function Auth() {
       const { email, password } = values
 
       try {
-        const res = await http.post('/api/auth', { email, password })
+        const res = await fetch(`http://localhost:3000/api/auth`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email, password })
+        })
+
+        const { token } = await res.json()
 
         if (res.status === 200) {
-          setCookie(null, 'token', res.data.token, {
+          setCookie(null, 'token', token, {
             maxAge: 30 * 24 * 60 * 60,
             path: '/'
           })
