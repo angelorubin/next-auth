@@ -22,7 +22,7 @@ export default function Auth() {
       const { email, password } = values
 
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/auth`, {
+        const res = await fetch(`https://next-auth-angelorubin.vercel.app/api/auth`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
