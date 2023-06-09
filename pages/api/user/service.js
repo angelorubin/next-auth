@@ -1,4 +1,4 @@
-import connectDB from '../../../utils/database'
+import connectDB from '@/utils/database'
 import User from './schema'
 import bcrypt from 'bcrypt'
 
