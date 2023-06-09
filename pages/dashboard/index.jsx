@@ -32,7 +32,7 @@ export async function getServerSideProps(context) {
   } catch (error) {
     return {
       redirect: {
-        destination: '/auth',
+        destination: 'https://next-auth-angelorubin.vercel.app/auth',
         permanent: false
       }
     }
