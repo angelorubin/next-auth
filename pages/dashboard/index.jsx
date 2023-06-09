@@ -25,8 +25,12 @@ export async function getServerSideProps(context) {
     const jsonData = await res.json()
 
     return {
-      props: {
-        data: jsonData
+      redirect: {
+        destination: '/auth',
+        permanent: false,
+        props: {
+          data: jsonData
+        }
       }
     }
   } catch (error) {
