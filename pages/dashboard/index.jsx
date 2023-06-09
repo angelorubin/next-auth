@@ -24,9 +24,11 @@ export async function getServerSideProps(context) {
 
     const jsonData = await res.json()
 
-    return {
-      props: {
-        data: jsonData
+    if (res.status === 200) {
+      return {
+        props: {
+          data: jsonData
+        }
       }
     }
   } catch (error) {
