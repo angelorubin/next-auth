@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import User from '../user/schema'
+import User from '@/user/schema'
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
