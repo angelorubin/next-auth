@@ -24,17 +24,25 @@ export async function getServerSideProps(context) {
 
     const jsonData = await res.json()
 
-    if (res.status === 200) {
+    if (res.status !== 200) {
       return {
-        props: {
-          data: jsonData
+        redirect: {
+          destination: `${process.env.NEXT_PUBLIC_URL}/auth`,
+          permanent: true
         }
+      }
+    }
+
+    return {
+      props: {
+        data: jsonData
       }
     }
   } catch (error) {
     return {
       redirect: {
-        destination: `${process.env.NEXT_PUBLIC_URL}/auth`
+        destination: `${process.env.NEXT_PUBLIC_URL}/auth`,
+        permanent: true
       }
     }
   }
