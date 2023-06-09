@@ -17,7 +17,7 @@ export async function getServerSideProps(context) {
     const { req } = context
     const cookies = parseCookies({ req })
 
-    const res = await fetch(`/api/validate-token`, {
+    const res = await fetch(`${proces.env.NEXT_PUBLIC_URL}/api/validate-token`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${cookies.token}` }
     })
@@ -25,12 +25,8 @@ export async function getServerSideProps(context) {
     const jsonData = await res.json()
 
     return {
-      redirect: {
-        destination: '/auth',
-        permanent: false,
-        props: {
-          data: jsonData
-        }
+      props: {
+        data: jsonData
       }
     }
   } catch (error) {
