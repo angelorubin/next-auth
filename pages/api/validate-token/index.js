@@ -14,7 +14,6 @@ export default async function handler(req, res) {
 
       res.status(200).json({
         message: 'Token validado com sucesso.',
-        decodedToken,
         user: { _id, name, email }
       })
     } catch (error) {
