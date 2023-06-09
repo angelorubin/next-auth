@@ -32,8 +32,7 @@ export async function getServerSideProps(context) {
   } catch (error) {
     return {
       redirect: {
-        destination: `${process.env.NEXT_PUBLIC_URL}/auth`,
-        permanent: false
+        destination: `${process.env.NEXT_PUBLIC_URL}/auth`
       }
     }
   }
