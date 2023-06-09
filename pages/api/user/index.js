@@ -7,10 +7,6 @@ export default async function handler(req, res) {
     const { body: userData } = req
     const createdUser = await userCreate(userData)
     return res.json({ ...createdUser })
-    try {
-    } catch (error) {
-      res.json({ message: error.message })
-    }
   }
 
   if (req.method === 'GET' && query.id) {
