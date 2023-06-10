@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { setCookie } from 'nookies'
 import * as Yup from 'yup'
 import { ToastContainer, toast } from 'react-toastify'
-import { Loading } from '@/pages/components/loading'
+import Loading from '@/pages/components/loading'
 
 export default function Auth() {
   const [authLoading, setAuthLoading] = useState(false)
