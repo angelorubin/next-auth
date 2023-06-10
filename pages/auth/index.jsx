@@ -22,7 +22,6 @@ export default function Auth() {
     }),
     onSubmit: async (values, { resetForm }) => {
       const { email, password } = values
-
       setAuthLoading(true)
 
       try {
