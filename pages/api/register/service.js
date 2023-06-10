@@ -1,5 +1,5 @@
-import connectDB from '../../../utils/database'
-import User from '../user/schema'
+import connectDB from '@/utils/database'
+import User from '@/pages/api/user/schema'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
@@ -19,34 +19,4 @@ export async function userRegistration({ name, email, password }) {
   const createdUser = await User.create(newUser)
 
   return createdUser
-
-  /**
-  if (email) {
-    return {
-      message: 'Usuário registrado com sucesso.',
-      name: userName,
-      email: userEmail
-    }
-  } else {
-    return {
-      message: 'Ocorreu um erro, o usuário não foi registrado.'
-    }
-  }
-  */
-
-  /**
-  // Hash password
-  return bcrypt.hash(body.password, saltRounds, (err, hash) => {
-    if (err) {
-      // Lida com o erro
-      throw new Error(err.message)
-    }
-    const userData = { name: body.name, email: body.email, password: hash }
-    const newUser = new User(userData)
-    User.create(newUser)
-
-    const token = createToken(userData)
-    return { userData }
-  })
-  */
 }
