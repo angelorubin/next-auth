@@ -1,11 +1,14 @@
+import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { useFormik } from 'formik'
 import Link from 'next/link'
 import { setCookie } from 'nookies'
 import * as Yup from 'yup'
 import { ToastContainer, toast } from 'react-toastify'
+import { Loading } from '@/pages/components/loading'
 
 export default function Auth() {
+  const [authLoading, setAuthLoading] = useState(false)
   const router = useRouter()
 
   const authFormik = useFormik({
@@ -20,6 +23,8 @@ export default function Auth() {
     onSubmit: async (values, { resetForm }) => {
       const { email, password } = values
 
+      setAuthLoading(true)
+
       try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/auth`, {
           method: 'POST',
@@ -32,6 +37,7 @@ export default function Auth() {
         const { token } = await res.json()
 
         if (res.status === 200) {
+          setAuthLoading(false)
           setCookie(null, 'token', token, {
             maxAge: 30 * 24 * 60 * 60,
             path: '/'
@@ -40,6 +46,7 @@ export default function Auth() {
         }
 
         if (res.status === 401) {
+          setAuthLoading(false)
           toast('Acesso não autorizado, credenciais inválidas', {
             position: 'top-center',
             hideProgressBar: true,
@@ -64,6 +71,7 @@ export default function Auth() {
   return (
     <div className="flex justify-center items-center w-full h-screen">
       <ToastContainer />
+      {authLoading && <Loading />}
       <div className="flex flex-col gap-4">
         <h3 className="font-roboto text-2xl font-bold tracking-wide">Next Auth</h3>
         <form onSubmit={authFormik.handleSubmit} className="flex flex-col gap-3">
