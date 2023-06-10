@@ -56,6 +56,7 @@ export default function Auth() {
           })
         }
       } catch (error) {
+        setAuthLoading(false)
         toast('Acesso não autorizado, credenciais inválidas', {
           position: 'top-center',
           hideProgressBar: true,
