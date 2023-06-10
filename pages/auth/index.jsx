@@ -38,6 +38,16 @@ export default function Auth() {
           })
           router.push('/dashboard')
         }
+
+        if (res.status === 401) {
+          toast('Acesso não autorizado, credenciais inválidas', {
+            position: 'top-center',
+            hideProgressBar: true,
+            closeButton: false,
+            type: 'error',
+            theme: 'colored'
+          })
+        }
       } catch (error) {
         toast('Acesso não autorizado, credenciais inválidas', {
           position: 'top-center',
