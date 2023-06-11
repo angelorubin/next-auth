@@ -8,7 +8,6 @@ import { ToastContainer, toast } from 'react-toastify'
 import Loading from '@/pages/components/loading'
 import { http } from '@/utils/http'
 import { useQuery, useMutation } from '@tanstack/react-query'
-import axios from 'axios'
 
 export default function Auth() {
   const [authLoading, setAuthLoading] = useState(false)
