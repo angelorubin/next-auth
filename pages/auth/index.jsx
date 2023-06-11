@@ -6,10 +6,15 @@ import { setCookie } from 'nookies'
 import * as Yup from 'yup'
 import { ToastContainer, toast } from 'react-toastify'
 import Loading from '@/pages/components/loading'
+import { http } from '@/utils/http'
+import { useQuery, useMutation } from '@tanstack/react-query'
+import axios from 'axios'
 
 export default function Auth() {
   const [authLoading, setAuthLoading] = useState(false)
   const router = useRouter()
+
+  const mutation = useMutation((formData) => http.post('/api/auth', formData))
 
   const authFormik = useFormik({
     initialValues: {
@@ -23,9 +28,8 @@ export default function Auth() {
     onSubmit: async (values, { resetForm }) => {
       const { email, password } = values
 
-      setAuthLoading(true)
-
       try {
+        /**
         const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/auth`, {
           method: 'POST',
           headers: {
@@ -35,25 +39,33 @@ export default function Auth() {
         })
 
         const { token } = await res.json()
+        */
 
-        if (res.status === 200) {
+        setAuthLoading(true)
+
+        const {
+          data,
+          error,
+          isError,
+          isIdle,
+          isLoading,
+          isPaused,
+          isSuccess,
+          failureCount,
+          failureReason,
+          mutate,
+          mutateAsync,
+          reset,
+          status
+        } = await mutation.mutateAsync({ email, password })
+
+        if (data) {
           setAuthLoading(false)
-          setCookie(null, 'token', token, {
+          setCookie(null, 'token', data.token, {
             maxAge: 30 * 24 * 60 * 60,
             path: '/'
           })
           router.push('/dashboard')
-        }
-
-        if (res.status === 401) {
-          setAuthLoading(false)
-          toast('Acesso não autorizado, credenciais inválidas', {
-            position: 'top-center',
-            hideProgressBar: true,
-            closeButton: false,
-            type: 'error',
-            theme: 'colored'
-          })
         }
       } catch (error) {
         setAuthLoading(false)

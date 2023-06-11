@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tanstack/react-query": "^4.29.12",
     "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
     "cookies-next": "^2.1.1",
@@ -28,6 +29,7 @@
   },
   "devDependencies": {
     "@babel/plugin-syntax-top-level-await": "^7.14.5",
+    "@tanstack/react-query-devtools": "^4.29.12",
     "@types/react": "18.2.6",
     "autoprefixer": "^10.4.14",
     "eslint": "^8.35.0",
