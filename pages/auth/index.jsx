@@ -28,18 +28,6 @@ export default function Auth() {
       const { email, password } = values
 
       try {
-        /**
-        const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/auth`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ email, password })
-        })
-
-        const { token } = await res.json()
-        */
-
         setAuthLoading(true)
 
         const {
@@ -59,7 +47,6 @@ export default function Auth() {
         } = await mutation.mutateAsync({ email, password })
 
         if (data) {
-          setAuthLoading(false)
           setCookie(null, 'token', data.token, {
             maxAge: 30 * 24 * 60 * 60,
             path: '/'
@@ -68,12 +55,13 @@ export default function Auth() {
         }
       } catch (error) {
         setAuthLoading(false)
-        toast('Acesso não autorizado, credenciais inválidas', {
+        toast('Acesso não autorizado', {
           position: 'top-center',
           hideProgressBar: true,
           closeButton: false,
           type: 'error',
-          theme: 'colored'
+          theme: 'colored',
+          autoClose: 3000
         })
         resetForm()
       }
