@@ -5,7 +5,7 @@ import connectDB from '../../../utils/database'
 
 connectDB()
 
-export async function userAuthentication(email, password) {
+export async function authentication(email, password) {
   const user = await User.findOne({ email })
 
   if (!user) {
