@@ -8,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import Loading from '@/pages/components/loading'
 import { http } from '@/utils/http'
 import { useQuery, useMutation } from '@tanstack/react-query'
+import { signIn } from 'next-auth/react'
 
 export default function Auth() {
   const [authLoading, setAuthLoading] = useState(false)
@@ -25,6 +26,17 @@ export default function Auth() {
       password: Yup.string().required('campo obrigatório')
     }),
     onSubmit: async (values, { resetForm }) => {
+      const { email, password } = values
+
+      const result = await signIn('credentials', {
+        email,
+        password,
+        redirect: false // Redirecionamento personalizado após a autenticação
+      })
+
+      console.log(result)
+
+      /**
       const { email, password } = values
 
       try {
@@ -65,6 +77,7 @@ export default function Auth() {
         })
         resetForm()
       }
+      */
     }
   })
 
