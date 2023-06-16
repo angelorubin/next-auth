@@ -1,7 +1,6 @@
 import { userCreate, usersRetrieve, userRetrieveById } from './service'
-import { authMiddleware } from '@/middlewares/auth'
 
-async function handler(req, res) {
+export default async function handler(req, res) {
   const { query, params } = req
 
   if (req.method === 'POST') {
@@ -22,5 +21,3 @@ async function handler(req, res) {
   }
   res.status(404).json({ error: 'Rota não encontrada' })
 }
-
-export default authMiddleware(handler)
