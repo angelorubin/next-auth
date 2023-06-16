@@ -31,6 +31,7 @@ export default function Auth() {
       try {
         setAuthLoading(true)
 
+        /**
         const {
           data,
           error,
@@ -46,14 +47,19 @@ export default function Auth() {
           reset,
           status
         } = await mutation.mutateAsync({ email, password })
+        */
 
-        if (data) {
-          setCookie(null, 'token', data.token, {
-            maxAge: 30 * 24 * 60 * 60,
-            path: '/'
-          })
-          router.push('/dashboard')
+        const result = await signIn('credentials', {
+          email,
+          password,
+          redirect: false // Redirect manually after successful login
+        })
+
+        if (!result.ok) {
+          setAuthLoading(false)
+          router.push('/auth')
         }
+        router.push('/dashboard')
       } catch (error) {
         setAuthLoading(false)
         toast('Acesso não autorizado', {

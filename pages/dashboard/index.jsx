@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
-import { parseCookies, destroyCookie } from 'nookies'
+import { signOut } from 'next-auth/react'
 import { AiOutlineLogout } from 'react-icons/ai'
+import { getSession, getToken } from 'next-auth/jwt'
 
 export async function validateToken(token) {
   const res = await fetch(`/api/validate-token`, {
@@ -15,34 +16,27 @@ export async function validateToken(token) {
 export async function getServerSideProps(context) {
   try {
     const { req } = context
-    const cookies = parseCookies({ req })
+    const token = await getToken({ req })
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/validate-token`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${cookies.token}` }
-    })
-
-    const jsonData = await res.json()
-
-    if (res.status !== 200) {
+    if (!token) {
       return {
         redirect: {
           destination: `${process.env.NEXT_PUBLIC_URL}/auth`,
-          permanent: true
+          permanent: false
         }
       }
     }
 
     return {
       props: {
-        data: jsonData
+        data: token
       }
     }
   } catch (error) {
     return {
       redirect: {
         destination: `${process.env.NEXT_PUBLIC_URL}/auth`,
-        permanent: true
+        permanent: false
       }
     }
   }
@@ -89,12 +83,11 @@ export async function getServerSideProps(context) {
 
 export default function Dashboard({ data }) {
   const router = useRouter()
-  const { user } = data
-  const { name } = user
+  const { name } = data
 
-  const handleLogout = (e) => {
-    destroyCookie(null, 'token', { path: '/' })
-    router.push('/auth')
+  const handleLogout = async (e) => {
+    await signOut()
+    window.location.href = '/auth'
   }
 
   return (
