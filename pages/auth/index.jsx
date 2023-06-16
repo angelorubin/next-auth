@@ -28,17 +28,6 @@ export default function Auth() {
     onSubmit: async (values, { resetForm }) => {
       const { email, password } = values
 
-      const result = await signIn('credentials', {
-        email,
-        password,
-        redirect: false // Redirecionamento personalizado após a autenticação
-      })
-
-      console.log(result)
-
-      /**
-      const { email, password } = values
-
       try {
         setAuthLoading(true)
 
@@ -77,7 +66,6 @@ export default function Auth() {
         })
         resetForm()
       }
-      */
     }
   })
 
