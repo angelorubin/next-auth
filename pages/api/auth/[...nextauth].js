@@ -4,6 +4,9 @@ import bcrypt from 'bcrypt'
 import User from '../user/schema'
 import connectDB from '../../../utils/database'
 
+// Connect to your existing database
+connectDB()
+
 export default NextAuth({
   providers: [
     CredentialsProvider({
@@ -17,9 +20,6 @@ export default NextAuth({
       authorize: async (credentials) => {
         const { email, password } = credentials
 
-        // Connect to your existing database
-        connectDB()
-
         // Retrieve the user from your existing database
         const user = await User.findOne({ email })
 
@@ -27,11 +27,10 @@ export default NextAuth({
         const passwordMatch = await bcrypt.compare(password, user.password)
 
         if (user && passwordMatch) {
-          // Return the user object if the password is correct
-          return Promise.resolve(user)
+          return user
         } else {
           // Return null if the username or password is incorrect
-          return Promise.resolve(null)
+          return null
         }
       }
     })

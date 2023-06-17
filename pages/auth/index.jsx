@@ -29,7 +29,7 @@ export default function Auth() {
       const { email, password } = values
 
       try {
-        setAuthLoading(true)
+        setAuthLoading(false)
 
         /**
         const {
@@ -68,6 +68,7 @@ export default function Auth() {
         } else {
           router.push('/dashboard')
         }
+        
       } catch (error) {
         setAuthLoading(false)
         toast('Acesso não autorizado', {
