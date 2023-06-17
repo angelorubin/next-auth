@@ -1,8 +1,9 @@
 import { useRouter } from 'next/router'
 import { signOut } from 'next-auth/react'
 import { AiOutlineLogout } from 'react-icons/ai'
-import { getSession, getToken } from 'next-auth/jwt'
+import { useSession } from 'next-auth/react'
 
+/**
 export async function validateToken(token) {
   const res = await fetch(`/api/validate-token`, {
     method: 'POST',
@@ -12,6 +13,7 @@ export async function validateToken(token) {
   const jsonData = res.json()
   return jsonData
 }
+*/
 
 export async function getServerSideProps(context) {
   try {
@@ -40,45 +42,6 @@ export async function getServerSideProps(context) {
       }
     }
   }
-
-  /**
-  if (!token) {
-    // Redireciona para a página de login ou exibe uma mensagem de erro
-    return {
-      redirect: {
-        destination: '/auth',
-        permanent: false
-      }
-    }
-  }
-
-  try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_VERCEL_URL}/api/validate-token`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-
-    // Lide com a resposta da API
-    const responseData = await response.json()
-
-    return {
-      props: {
-        data: responseData
-      }
-    }
-  } catch (error) {
-    return {
-      props: {
-        error: 'Erro na requisição.'
-      }
-    }
-  }
-  */
 }
 
 export default function Dashboard({ data }) {

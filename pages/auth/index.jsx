@@ -57,9 +57,17 @@ export default function Auth() {
 
         if (!result.ok) {
           setAuthLoading(false)
-          router.push('/auth')
+          toast('Acesso não autorizado', {
+            position: 'top-center',
+            hideProgressBar: true,
+            closeButton: false,
+            type: 'error',
+            theme: 'colored',
+            autoClose: 3000
+          })
+        } else {
+          router.push('/dashboard')
         }
-        router.push('/dashboard')
       } catch (error) {
         setAuthLoading(false)
         toast('Acesso não autorizado', {
