@@ -51,7 +51,7 @@ Para acessar a aplicação abra o navegador e digite o seguinte endereço:
 
 `http://localhost:3000`
 
-Se tudo foi configurado corretamente nesse momento será exibida a pagina inicial de autenticação so sistema.
+Se tudo foi configurado corretamente, nesse momento será exibida a pagina inicial de autenticação do sistema.
 
 ## Create Next App
 
