@@ -1,6 +1,59 @@
-# Next Auth
+Next Auth
+===
 
-Sistema de autenticação básico (email e password) implementando com Next.js e MongoDB
+[VEJA A DEMO ONLINE AQUI](https://next-auth-angelorubin.vercel.app/auth)
+
+## Descrição
+Estrutura inicial de um sistema web (frontend e API) com autenticação básica (email e password) integrada.
+
+## Tecnologias utilizadas
+* Node
+* Yarn
+* NextJS
+* Next-Auth
+* MongoDB Atlas
+* Mongoose
+* Tailwind
+
+## Instalação
+> É preciso ter o Node.js instalado em seu sistema, veja como fazer isso [aqui](https://nodejs.org/pt-br/download).
+
+> É preciso ter algum gerenciador de pacotes como yarn ou npm instalado em seu sistema. Veja como instalar o yarn [aqui](https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable) ou o npm [aqui](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm).
+
+> Você pode clonar o projeto através do console diretamente para o seu computador, mas para isso é preciso ter o git instalado e configurado em seu computador, veja como fazer isso [aqui](https://docs.github.com/pt/get-started/quickstart/set-up-git).
+
+Com o Git instalado, clone o projeto.
+Para isso abra o console e digite o seguinte comando:
+
+`git clone https://github.com/angelorubin/next-auth.git`
+
+Com isso o projeto será clonado diretamente para o seu computador no diretório que você estiver com o console aberto.
+
+Em caso de download do projeto, descompacte-o em uma pasta de sua preferência.
+
+Com o projeto (descompactado ou clonado), abra o console de sua preferência e digite:
+
+`yarn install` ou `npm install`
+
+Com isso todas as dependências do projeto serão instaladas.
+
+O próximo passo é preencher as variáveis de ambiente que se encontram na raíz do projeto no arquivo **.env.local**
+
+> IMPORTANTE: É necessário criar uma conta no MongoDB atlas (gratuita) para poder criar um banco de dados para poder armazenar as informações do seu sistema online. Veja como fazer isso clicando [aqui](https://www.mongodb.com/docs/atlas/tutorial/create-atlas-account/).
+
+Com tudo configurado e com as váriáveis de ambiente devidamente preenchidas, podemos iniciar o projeto em modo de desenvolvimento, para isso digite o seguinte comando no console:
+
+`yarn dev`
+
+Com isso ja teremos nossa aplicação rodando localmente.
+
+Para acessar a aplicação abra o navegador e digite o seguinte endereço:
+
+`http://localhost:3000`
+
+Se tudo foi configurado corretamente nesse momento será exibida a pagina inicial de autenticação so sistema.
+
+## Create Next App
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
