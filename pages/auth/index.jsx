@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { useFormik } from 'formik'
 import Link from 'next/link'
-import { setCookie } from 'nookies'
 import * as Yup from 'yup'
 import { ToastContainer, toast } from 'react-toastify'
 import Loading from '@/pages/components/loading'
@@ -86,7 +85,7 @@ export default function Auth() {
   })
 
   const handleClickGithub = async () => {
-    await signIn('github')
+    await signIn('github', { callbackUrl: '/dashboard' })
   }
 
   return (
