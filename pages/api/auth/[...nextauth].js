@@ -1,8 +1,9 @@
 import NextAuth from 'next-auth'
-import CredentialsProvider from 'next-auth/providers/credentials'
 import bcrypt from 'bcrypt'
 import User from '../user/schema'
 import connectDB from '../../../utils/database'
+import CredentialsProvider from 'next-auth/providers/credentials'
+import GitHubProvider from 'next-auth/providers/github'
 
 // Connect to your existing database
 connectDB()
@@ -33,6 +34,10 @@ export default NextAuth({
           return null
         }
       }
+    }),
+    GitHubProvider({
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET
     })
   ]
 })

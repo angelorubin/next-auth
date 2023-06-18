@@ -8,7 +8,9 @@ import { ToastContainer, toast } from 'react-toastify'
 import Loading from '@/pages/components/loading'
 import { http } from '@/utils/http'
 import { useQuery, useMutation } from '@tanstack/react-query'
-import { signIn } from 'next-auth/react'
+import { signIn, getProviders } from 'next-auth/react'
+import Icon from '../components/icon'
+import { FaGithub } from 'react-icons/fa'
 
 export default function Auth() {
   const [authLoading, setAuthLoading] = useState(false)
@@ -68,7 +70,6 @@ export default function Auth() {
         } else {
           router.push('/dashboard')
         }
-        
       } catch (error) {
         setAuthLoading(false)
         toast('Acesso não autorizado', {
@@ -84,8 +85,12 @@ export default function Auth() {
     }
   })
 
+  const handleClickGithub = async () => {
+    await signIn('github')
+  }
+
   return (
-    <div className="flex justify-center items-center w-full h-screen">
+    <div className="flex flex-col justify-center items-center w-full h-screen">
       <ToastContainer />
       {authLoading && <Loading />}
       <div className="flex flex-col gap-4">
@@ -122,6 +127,18 @@ export default function Auth() {
           </button>
         </form>
         <Link href={{ pathname: '/register' }}>Ainda não possui conta?</Link>
+      </div>
+      <div className="m-2 text-gray-300">ou acesse com</div>
+      <div>
+        <button
+          className="flex flex-col items-center border rounded-lg p-1"
+          onClick={handleClickGithub}
+        >
+          <Icon size={'2rem'}>
+            <FaGithub />
+          </Icon>
+          <h3>github</h3>
+        </button>
       </div>
     </div>
   )
