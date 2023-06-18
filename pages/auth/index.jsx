@@ -84,15 +84,15 @@ export default function Auth() {
     }
   })
 
-  const handleClickGithub = async () => {
-    await signIn('github', { callbackUrl: '/dashboard' })
+  const handleSignIn = async (provider) => {
+    await signIn(provider, { callbackUrl: '/dashboard' })
   }
 
   return (
     <div className="flex flex-col justify-center items-center w-full h-screen">
       <ToastContainer />
       {authLoading && <Loading />}
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col items-center gap-4">
         <h3 className="font-roboto text-2xl font-bold tracking-wide">Next Auth</h3>
         <form onSubmit={authFormik.handleSubmit} className="flex flex-col gap-3">
           <input
@@ -127,11 +127,13 @@ export default function Auth() {
         </form>
         <Link href={{ pathname: '/register' }}>Ainda não possui conta?</Link>
       </div>
+
       <div className="m-2 text-gray-300">ou acesse com</div>
+
       <div>
         <button
           className="flex flex-col items-center border rounded-lg p-1"
-          onClick={handleClickGithub}
+          onClick={handleSignIn('github')}
         >
           <Icon size={'2rem'}>
             <FaGithub />
