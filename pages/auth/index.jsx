@@ -30,7 +30,7 @@ export default function Auth() {
       const { email, password } = values
 
       try {
-        setAuthLoading(false)
+        setAuthLoading(true)
 
         /**
         const {
@@ -85,6 +85,7 @@ export default function Auth() {
   })
 
   const handleSignIn = async (provider) => {
+    setAuthLoading(true)
     await signIn(provider, { callbackUrl: '/dashboard' })
   }
 
