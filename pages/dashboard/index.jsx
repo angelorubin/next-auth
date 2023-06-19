@@ -64,8 +64,7 @@ export default function Dashboard({ user }) {
   const router = useRouter()
 
   const handleLogout = async (e) => {
-    await signOut()
-    window.location.href = '/auth'
+    await signOut({ redirect: true, callbackUrl: '/auth' })
   }
 
   if (session) {

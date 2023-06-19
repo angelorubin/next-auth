@@ -133,7 +133,7 @@ export default function Auth() {
       <div>
         <button
           className="flex flex-col items-center border rounded-lg p-1"
-          onClick={handleSignIn('github')}
+          onClick={() => handleSignIn('github')}
         >
           <Icon size={'2rem'}>
             <FaGithub />
