@@ -15,13 +15,15 @@
     "jsx": "preserve",
     "incremental": true,
     // Using "baseUrl" allows you to use absolute paths
-    "baseUrl": ".",
+    "baseUrl": "./",
     // Using "paths" allows you to configure module path aliases
-    "paths": {
-      "@/components/*": ["components/*"]
-    }
+    "paths": { "@/utils/*": ["app/utils/*"], "@/components/*": ["app/components/*"] },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }
-

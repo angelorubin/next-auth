@@ -1,3 +1,4 @@
+'use client'
 import { getServerSession } from 'next-auth/next'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
@@ -18,7 +19,7 @@ export async function validateToken(token) {
 }
 */
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: any) {
   try {
     const session = await getServerSession(context.req, context.res)
 

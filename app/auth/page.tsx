@@ -1,21 +1,35 @@
+'use client'
 import { useState } from 'react'
-import { useRouter } from 'next/router'
+import { http } from '@/utils/http'
+import { useRouter } from 'next/navigation'
 import { useFormik } from 'formik'
+import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 import * as Yup from 'yup'
 import { ToastContainer, toast } from 'react-toastify'
-import Loading from '@/pages/components/loading'
-import { http } from '@/utils/http'
-import { useQuery, useMutation } from '@tanstack/react-query'
-import { signIn, getProviders } from 'next-auth/react'
-import Icon from '../components/icon'
+import Loading from '@/components/loading'
+import { useMutation } from '@tanstack/react-query'
+import Icon from '@/components/icon'
 import { FaGithub } from 'react-icons/fa'
+import { api } from '@/utils/api'
+
+const authenticate = async (email, password) => {
+  // Realiza la lógica de autenticación y devuelve los tokens o credenciales
+  const response = await fetch('api/auth/signin', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ email, password })
+  })
+  const data = await response.json()
+  console.log(data)
+  return data
+}
 
 export default function Auth() {
   const [authLoading, setAuthLoading] = useState(false)
   const router = useRouter()
-
-  const mutation = useMutation((formData) => http.post('/api/auth', formData))
 
   const authFormik = useFormik({
     initialValues: {
@@ -30,31 +44,27 @@ export default function Auth() {
       const { email, password } = values
 
       try {
-        setAuthLoading(true)
+        const res = await authenticate(email, password)
+        console.log(res)
 
-        /**
-        const {
-          data,
-          error,
-          isError,
-          isIdle,
-          isLoading,
-          isPaused,
-          isSuccess,
-          failureCount,
-          failureReason,
-          mutate,
-          mutateAsync,
-          reset,
-          status
-        } = await mutation.mutateAsync({ email, password })
-        */
+        // Handle successful authentication (redirect, set session, etc.)
+        console.log('Authentication successful')
+      } catch (error) {
+        // Handle authentication error
+        console.error('Authentication error:', error)
+      }
+
+      /*
+      try {
+        setAuthLoading(true)
 
         const result = await signIn('credentials', {
           email,
           password,
           redirect: false // Redirect manually after successful login
         })
+
+        console.log(result)
 
         if (!result.ok) {
           setAuthLoading(false)
@@ -67,7 +77,7 @@ export default function Auth() {
             autoClose: 3000
           })
         } else {
-          router.push('/dashboard')
+          // router.push('/dashboard')
         }
       } catch (error) {
         setAuthLoading(false)
@@ -81,13 +91,9 @@ export default function Auth() {
         })
         resetForm()
       }
+      */
     }
   })
-
-  const handleSignIn = async (provider) => {
-    setAuthLoading(true)
-    await signIn(provider, { callbackUrl: '/dashboard' })
-  }
 
   return (
     <div className="flex flex-col justify-center items-center w-full h-screen">

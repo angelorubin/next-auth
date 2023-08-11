@@ -1,8 +1,9 @@
+'use client'
 import { useState } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { useRouter } from 'next/router'
-import { api } from '@/utils/api'
+import { useRouter } from 'next/navigation'
+import { api } from 'app/utils/api'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -37,7 +38,7 @@ export default function User() {
           password
         })
 
-        const { statusCode } = res
+        // const { statusCode } = res
 
         if (res.status === 201) {
           toast('Usuário cadastrado com sucesso', {
@@ -68,7 +69,7 @@ export default function User() {
     <div className="flex justify-center items-center w-full h-screen">
       <ToastContainer />
       <div className="flex flex-col gap-4">
-        <h3 className="font-roboto text-2xl font-bold tracking-wide">Crie sua conta</h3>
+        <h3 className="font-roboto text-2xl font-bold tracking-wide text-center">Crie sua conta</h3>
         <form onSubmit={formRegistration.handleSubmit} className="flex flex-col gap-2">
           <input
             id="name"
@@ -115,7 +116,9 @@ export default function User() {
           <button className="bg-gray-500 text-white p-2" type="submit">
             cadastrar
           </button>
-          <a href="/auth">Já possui conta?</a>
+          <a href="/auth" className="text-center">
+            Já possui conta?
+          </a>
         </form>
       </div>
     </div>
