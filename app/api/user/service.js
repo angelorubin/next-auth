@@ -32,6 +32,10 @@ export async function usersRetrieve() {
   return await User.find({})
 }
 
+export async function getUserByEmail(email) {
+  return await User.find({ email })
+}
+
 export async function userRetrieveById(id) {
   return await User.findOne({ _id: id })
 }

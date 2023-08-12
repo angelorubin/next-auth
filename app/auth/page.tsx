@@ -1,17 +1,16 @@
 'use client'
 import { useState } from 'react'
-import { http } from '@/utils/http'
 import { useRouter } from 'next/navigation'
 import { useFormik } from 'formik'
-import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 import * as Yup from 'yup'
 import { ToastContainer, toast } from 'react-toastify'
 import Loading from '@/components/loading'
-import { useMutation } from '@tanstack/react-query'
 import Icon from '@/components/icon'
 import { FaGithub } from 'react-icons/fa'
-import { api } from '@/utils/api'
+import { signIn } from 'next-auth/react'
+
+const handleSignIn = (provider) => {}
 
 const authenticate = async (email, password) => {
   // Realiza la lógica de autenticación y devuelve los tokens o credenciales
@@ -29,7 +28,7 @@ const authenticate = async (email, password) => {
 
 export default function Auth() {
   const [authLoading, setAuthLoading] = useState(false)
-  const router = useRouter()
+  // const router = useRouter()
 
   const authFormik = useFormik({
     initialValues: {
@@ -44,8 +43,11 @@ export default function Auth() {
       const { email, password } = values
 
       try {
-        const res = await authenticate(email, password)
-        console.log(res)
+        signIn('credentials', {
+          email,
+          password,
+          redirect: false
+        })
 
         // Handle successful authentication (redirect, set session, etc.)
         console.log('Authentication successful')

@@ -1,11 +1,9 @@
 'use client'
-import { getServerSession } from 'next-auth/next'
-import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/router'
-import { signOut } from 'next-auth/react'
+import { useSession, signOut } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 import { AiOutlineLogout } from 'react-icons/ai'
 import { FaUserCircle } from 'react-icons/fa'
-import Icon from '../components/icon'
+import Icon from '@/components/icon'
 
 /**
 export async function validateToken(token) {
@@ -19,6 +17,7 @@ export async function validateToken(token) {
 }
 */
 
+/*
 export async function getServerSideProps(context: any) {
   try {
     const session = await getServerSession(context.req, context.res)
@@ -64,10 +63,12 @@ export async function getServerSideProps(context: any) {
         data: token
       }
     }
-    */
 }
+*/
 
 export default function Dashboard() {
+  return <h1>Dashboard</h1>
+  /*
   const router = useRouter()
   const session = useSession()
 
@@ -115,4 +116,5 @@ export default function Dashboard() {
       </div>
     </div>
   )
+  */
 }
