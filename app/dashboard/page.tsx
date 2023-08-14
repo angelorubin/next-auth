@@ -1,22 +1,9 @@
 'use client'
-import { useEffect } from 'react'
 import { useSession, signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { AiOutlineLogout } from 'react-icons/ai'
 import { FaUserCircle } from 'react-icons/fa'
 import Icon from '@/components/icon'
-
-/**
-export async function validateToken(token) {
-  const res = await fetch(`/api/validate-token`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }
-  })
-
-  const jsonData = res.json()
-  return jsonData
-}
-*/
 
 /*
 export async function getServerSideProps(context: any) {
@@ -71,15 +58,13 @@ export default function Dashboard() {
   const { data: session, status } = useSession()
   const router = useRouter()
 
-  if (!session) {
-    router.push('/auth')
-  }
-
-  return (
-    <>
+  return status === 'authenticated' ? (
+    <div>
       <h1>Dashboard</h1>
       <button onClick={() => signOut({ callbackUrl: '/' })}>logout</button>
-    </>
+    </div>
+  ) : (
+    router.push('/auth')
   )
   /*
   const router = useRouter()
