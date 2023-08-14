@@ -7,7 +7,7 @@ import GitHub from 'next-auth/providers/github'
 
 connectDB()
 
-export const authOptions: NextAuthOptions = {
+const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       credentials: {
