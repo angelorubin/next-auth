@@ -58,6 +58,13 @@ export default function Dashboard() {
   const { data: session, status } = useSession()
   const router = useRouter()
 
+  return (
+    <div>
+      <h2>Dashboard</h2>
+    </div>
+  )
+
+  /**
   return status === 'authenticated' ? (
     <div>
       <h1>Dashboard</h1>
@@ -66,6 +73,8 @@ export default function Dashboard() {
   ) : (
     router.push('/auth')
   )
+  */
+
   /**
   const router = useRouter()
   const session = useSession()
