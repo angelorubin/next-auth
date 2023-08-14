@@ -66,7 +66,7 @@ export default function Dashboard() {
   ) : (
     router.push('/auth')
   )
-  /*
+  /**
   const router = useRouter()
   const session = useSession()
 
