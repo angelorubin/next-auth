@@ -1,6 +1,6 @@
 'use client'
 import { useSession, signOut } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { useRouter, redirect } from 'next/navigation'
 import { AiOutlineLogout } from 'react-icons/ai'
 import { FaUserCircle } from 'react-icons/fa'
 import Icon from '@/components/icon'
@@ -58,9 +58,9 @@ export default function Dashboard() {
   const { data: session, status } = useSession()
   const router = useRouter()
 
-  return (
+  return session ? (
     <div className="flex gap-1">
-      <h2>Dashboard</h2>
+      <h2 className="flex-1">Dashboard</h2>
       <button
         className="bg-blue-500 text-white font-bold p-1"
         onClick={() => signOut({ callbackUrl: '/' })}
@@ -68,7 +68,10 @@ export default function Dashboard() {
         logout
       </button>
     </div>
+  ) : (
+    redirect('/auth')
   )
+}
 
   /**
   return status === 'authenticated' ? (
@@ -130,4 +133,4 @@ export default function Dashboard() {
     </div>
   )
   */
-}
+
