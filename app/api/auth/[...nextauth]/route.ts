@@ -1,23 +1,35 @@
 import NextAuth, { type NextAuthOptions } from 'next-auth'
 import bcrypt from 'bcrypt'
-import User from '../../user/schema'
+import {getUserByEmail} from '../../user/service'
 import connectDB from '@/utils/database'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import GitHub from 'next-auth/providers/github'
 
+connectDB()
+
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
-      credentials: { password: { label: 'Password', type: 'password' } },
-      async authorize(credentials) {
-        if (credentials.password !== 'pw') return null
-        return {
-          name: 'Fill Murray',
-          email: 'bill@fillmurray.com',
-          image: 'https://www.fillmurray.com/64/64',
-          id: '1',
-          foo: ''
+      credentials: {
+        email: { label: 'E-mail', type:'text' },
+        password: { label: 'Password', type: 'password' }
+      },
+      authorize: async (credentials) => {
+        const { email, password } = credentials;
+
+        const user = await getUserByEmail(email);
+        
+        if (!user) {
+          return null;
         }
+
+        const isValid = await bcrypt.compare(password, user.password);
+
+        if (!isValid) {
+          return null;
+        }
+        
+        return { email: user.email, id: user._id };
       }
     }),
     GitHub({

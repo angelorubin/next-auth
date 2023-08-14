@@ -12,6 +12,7 @@ import { signIn } from 'next-auth/react'
 
 const handleSignIn = (provider) => {}
 
+/*
 const authenticate = async (email, password) => {
   // Realiza la lógica de autenticación y devuelve los tokens o credenciales
   const response = await fetch('api/auth/signin', {
@@ -25,10 +26,11 @@ const authenticate = async (email, password) => {
   console.log(data)
   return data
 }
+*/
 
 export default function Auth() {
   const [authLoading, setAuthLoading] = useState(false)
-  // const router = useRouter()
+  const router = useRouter()
 
   const authFormik = useFormik({
     initialValues: {
@@ -43,14 +45,23 @@ export default function Auth() {
       const { email, password } = values
 
       try {
-        signIn('credentials', {
+        const result = await signIn('credentials', {
           email,
           password,
           redirect: false
         })
 
-        // Handle successful authentication (redirect, set session, etc.)
-        console.log('Authentication successful')
+        // Verifica o resultado da autenticação
+        if (result?.error) {
+          // Lidar com erro de autenticação
+          console.error('Erro de autenticação:', result.error)
+          resetForm()
+        } else if (result?.url) {
+          // Redirecionar após autenticação bem-sucedida
+          router.push('/dashboard')
+        } else {
+          // Lógica para outros casos
+        }
       } catch (error) {
         // Handle authentication error
         console.error('Authentication error:', error)

@@ -33,7 +33,7 @@ export async function usersRetrieve() {
 }
 
 export async function getUserByEmail(email) {
-  return await User.find({ email })
+  return await User.findOne({ email })
 }
 
 export async function userRetrieveById(id) {

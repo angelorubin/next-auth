@@ -1,4 +1,5 @@
 'use client'
+import { useEffect } from 'react'
 import { useSession, signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { AiOutlineLogout } from 'react-icons/ai'
@@ -67,6 +68,13 @@ export async function getServerSideProps(context: any) {
 */
 
 export default function Dashboard() {
+  const { data: session, status } = useSession()
+  const router = useRouter()
+
+  if (!session) {
+    router.push('/auth')
+  }
+
   return <h1>Dashboard</h1>
   /*
   const router = useRouter()
