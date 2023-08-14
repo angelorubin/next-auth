@@ -75,7 +75,12 @@ export default function Dashboard() {
     router.push('/auth')
   }
 
-  return <h1>Dashboard</h1>
+  return (
+    <>
+      <h1>Dashboard</h1>
+      <button onClick={() => signOut({ callbackUrl: '/' })}>logout</button>
+    </>
+  )
   /*
   const router = useRouter()
   const session = useSession()
