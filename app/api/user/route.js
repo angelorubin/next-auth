@@ -1,6 +1,13 @@
 import { userCreate, usersRetrieve, userRetrieveById } from './service'
 
-export default async function handler(req, res) {
+import { NextResponse } from 'next/server'
+
+export async function GET() {}
+
+export async function POST() {}
+
+/**
+ * export default async function handler(req, res) {
   const { query, params } = req
 
   if (req.method === 'POST') {
@@ -21,3 +28,4 @@ export default async function handler(req, res) {
   }
   res.status(404).json({ error: 'Rota não encontrada' })
 }
+ */
