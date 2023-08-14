@@ -59,8 +59,14 @@ export default function Dashboard() {
   const router = useRouter()
 
   return (
-    <div>
+    <div className="flex gap-1">
       <h2>Dashboard</h2>
+      <button
+        className="bg-blue-500 text-white font-bold p-1"
+        onClick={() => signOut({ callbackUrl: '/' })}
+      >
+        logout
+      </button>
     </div>
   )
 
