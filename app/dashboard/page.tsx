@@ -1,10 +1,11 @@
 'use client'
-import { useSession, signOut } from 'next-auth/react'
+import { signOut } from 'next-auth/react'
 import { useRouter, redirect } from 'next/navigation'
 import { AiOutlineLogout } from 'react-icons/ai'
 import { FaUserCircle } from 'react-icons/fa'
 import Icon from '@/components/icon'
-
+import SessionChecker from '@/components/session-checker'
+import { useSession } from 'next-auth/react'
 /*
 export async function getServerSideProps(context: any) {
   try {
@@ -58,31 +59,23 @@ export default function Dashboard() {
   const { data: session, status } = useSession()
   const router = useRouter()
 
-  return session ? (
-    <div className="flex gap-1">
-      <h2 className="flex-1">Dashboard</h2>
-      <button
-        className="bg-blue-500 text-white font-bold p-1"
-        onClick={() => signOut({ callbackUrl: '/' })}
-      >
-        logout
-      </button>
-    </div>
-  ) : (
-    redirect('/auth')
+  return (
+    <SessionChecker>
+      <div className="flex gap-1">
+        <h2 className="flex-1">Dashboard</h2>
+        <div className="">
+          <pre>{session?.user?.email}</pre>
+        </div>
+        <button
+          className="bg-blue-500 text-white font-bold p-1"
+          onClick={() => signOut({ callbackUrl: '/auth' })}
+        >
+          logout
+        </button>
+      </div>
+    </SessionChecker>
   )
 }
-
-  /**
-  return status === 'authenticated' ? (
-    <div>
-      <h1>Dashboard</h1>
-      <button onClick={() => signOut({ callbackUrl: '/' })}>logout</button>
-    </div>
-  ) : (
-    router.push('/auth')
-  )
-  */
 
   /**
   const router = useRouter()
