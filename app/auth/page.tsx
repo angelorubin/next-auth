@@ -44,6 +44,7 @@ const authenticate = async (email, password) => {
      }),
      onSubmit: async (values, { resetForm }) => {
        const { email, password } = values
+       setAuthLoading(true)
 
        try {
          const result = await signIn('credentials', {
@@ -53,6 +54,7 @@ const authenticate = async (email, password) => {
          })
 
          if (result?.error) {
+           setAuthLoading(false)
            toast('Acesso não autorizado', {
              position: 'top-center',
              hideProgressBar: true,
