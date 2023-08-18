@@ -118,54 +118,69 @@ const authenticate = async (email, password) => {
      <div className="flex flex-col justify-center items-center w-full h-screen">
        <ToastContainer />
        {authLoading && <Loading />}
-       <div className="flex flex-col items-center gap-4">
-         <h3 className="font-roboto text-2xl font-bold tracking-wide">Next Auth</h3>
-         <form onSubmit={authFormik.handleSubmit} className="flex flex-col gap-3">
-           <input
-             id="email"
-             name="email"
-             className="p-2 bg-gray-100"
-             type="email"
-             placeholder="e-mail"
-             value={authFormik.values.email}
-             onChange={authFormik.handleChange}
-             onBlur={authFormik.handleBlur}
-           />
-           {authFormik.touched.email && authFormik.errors.email ? (
-             <span className="text-red-500">{authFormik.errors.email}</span>
-           ) : null}
-           <input
-             id="password"
-             name="password"
-             className="p-2 bg-gray-100"
-             type="password"
-             placeholder="senha"
-             value={authFormik.values.password}
-             onChange={authFormik.handleChange}
-             onBlur={authFormik.handleBlur}
-           />
-           {authFormik.touched.password && authFormik.errors.password ? (
-             <span className="text-red-500">{authFormik.errors.password}</span>
-           ) : null}
-           <button type="submit" className="p-2 bg-gray-500 text-white">
-             Entrar
+       <div className="flex flex-col items-center">
+         <div className="flex flex-col items-center gap-4">
+           <h3 className="font-roboto text-3xl font-bold tracking-wide">Next Auth</h3>
+           <form onSubmit={authFormik.handleSubmit} className="flex flex-col gap-3">
+             <input
+               id="email"
+               name="email"
+               className="p-2 bg-gray-100"
+               type="email"
+               placeholder="e-mail"
+               value={authFormik.values.email}
+               onChange={authFormik.handleChange}
+               onBlur={authFormik.handleBlur}
+             />
+             {authFormik.touched.email && authFormik.errors.email ? (
+               <span className="text-red-500 text-sm">{authFormik.errors.email}</span>
+             ) : null}
+             <input
+               id="password"
+               name="password"
+               className="p-2 bg-gray-100"
+               type="password"
+               placeholder="senha"
+               value={authFormik.values.password}
+               onChange={authFormik.handleChange}
+               onBlur={authFormik.handleBlur}
+             />
+             {authFormik.touched.password && authFormik.errors.password ? (
+               <span className="text-red-500 text-sm">{authFormik.errors.password}</span>
+             ) : null}
+             <button
+               type="submit"
+               disabled={authFormik.isSubmitting}
+               className={`p-2 bg-gray-400 font-bold ${
+                 authFormik.isSubmitting ? 'text-gray-500' : 'text-white'
+               }`}
+             >
+               Entrar
+             </button>
+           </form>
+           <Link href={{ pathname: '/register' }}>Ainda não possui conta?</Link>
+         </div>
+
+         <div className="mt-4 mb-4 text-gray-300">ou acesse com</div>
+
+         <div className="flex flex-col gap-3 w-full">
+           <button
+             className="flex gap-1 p-2 bg-black text-white w-full"
+             onClick={() => handleSignIn('')}
+           >
+             <div className="flex w-4/12 justify-start">
+               <Icon
+                 size={'1.5rem'}
+                 style={{ 'vertical-align': 'middle', display: 'flex', width: 'flex-1' }}
+               >
+                 <FaGithub color="white" />
+               </Icon>
+             </div>
+             <div className="flex w-8/12 justify-center items-center">
+               <h3 className="text-sm">Github</h3>
+             </div>
            </button>
-         </form>
-         <Link href={{ pathname: '/register' }}>Ainda não possui conta?</Link>
-       </div>
-
-       <div className="m-2 text-gray-300">ou acesse com</div>
-
-       <div>
-         <button
-           className="flex flex-col items-center border rounded-lg p-1"
-           onClick={() => handleSignIn('github')}
-         >
-           <Icon size={'2rem'}>
-             <FaGithub />
-           </Icon>
-           <h3>github</h3>
-         </button>
+         </div>
        </div>
      </div>
    )
