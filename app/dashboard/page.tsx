@@ -6,61 +6,22 @@ import { FaUserCircle } from 'react-icons/fa'
 import Icon from '@/components/icon'
 import SessionChecker from '@/components/session-checker'
 import { useSession } from 'next-auth/react'
-/*
-export async function getServerSideProps(context: any) {
-  try {
-    const session = await getServerSession(context.req, context.res)
-
-    if (!session) {
-      return {
-        redirect: {
-          destination: '/auth',
-          permanent: false
-        }
-      }
-    }
-
-    // O usuário está logado, você pode acessar as informações do usuário através de session.user
-    return {
-      props: {}
-    }
-  } catch (error) {
-    return {
-      redirect: {
-        destination: '/auth',
-        permanent: false
-      },
-      props: {}
-    }
-  }
-
-  /**
-    const { req } = context
-    const token = await getToken({ req })
-
-    if (!token) {
-      return {
-        redirect: {
-          destination: `${process.env.NEXT_PUBLIC_URL}/auth`,
-          permanent: false
-        }
-      }
-    }
-
-    return {
-      props: {
-        data: token
-      }
-    }
-}
-*/
+import Loading from '@/components/loading'
+import Link from 'next/link'
 
 export default function Dashboard() {
   const { data: session, status } = useSession()
   const router = useRouter()
 
-  return (
-    <SessionChecker>
+  if (status === 'loading') {
+  }
+
+  if (!session) {
+    return <Link href="/auth">Sign in</Link>
+  }
+
+  if (session) {
+    return (
       <div className="flex gap-1">
         <h2 className="flex-1">Dashboard</h2>
         <div className="">
@@ -73,8 +34,8 @@ export default function Dashboard() {
           logout
         </button>
       </div>
-    </SessionChecker>
-  )
+    )
+  }
 }
 
   /**
